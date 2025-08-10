@@ -1,0 +1,61 @@
+{
+  "name": "global-medical-ai-library-frontend",
+  "version": "1.0.0",
+  "description": "A comprehensive frontend application for a medical AI platform providing tools for medical image analysis, lab test interpretation, and AI-powered medical assistance.",
+  "main": "index.html",
+  "scripts": {
+    "start": "http-server -p 8000 -c-1",
+    "dev": "http-server -p 8000 -c-1 --cors",
+    "build": "echo 'No build process needed for vanilla JS project'",
+    "test": "echo 'No test framework configured'",
+    "lint": "echo 'No linter configured'",
+    "format": "echo 'No formatter configured'",
+    "serve": "python -m http.server 8000",
+    "serve-php": "php -S localhost:8000"
+  },
+  "keywords": [
+    "medical",
+    "ai",
+    "healthcare",
+    "frontend",
+    "vanilla-js",
+    "medical-imaging",
+    "dicom",
+    "chartjs",
+    "cornerstone",
+    "responsive",
+    "dashboard"
+  ],
+  "author": "Global Medical AI Library Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/global-medical-ai-library-frontend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/global-medical-ai-library-frontend/issues"
+  },
+  "homepage": "https://github.com/your-org/global-medical-ai-library-frontend#readme",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "dependencies": {},
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "bundledDependencies": [],
+  "overrides": {},
+  "resolutions": {},
+  "config": {
+    "port": 8000,
+    "host": "localhost"
+  }
+}
