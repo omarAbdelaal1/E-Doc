@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - Global Medical AI Library</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <i class="fas fa-brain"></i>
+                <span>Global Medical AI Library</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="ai-tools.html" class="nav-link">AI Tools</a></li>
+                <li><a href="assistant.html" class="nav-link">AI Assistant</a></li>
+                <li><a href="appointments.html" class="nav-link">Appointments</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="reports.html" class="nav-link active">Reports</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Medical Reports</h1>
+                <p>View and manage patient reports with AI analysis and doctor annotations</p>
+            </div>
+
+            <!-- Reports Controls -->
+            <div class="reports-controls">
+                <div class="search-filters">
+                    <div class="search-box">
+                        <input type="text" id="searchReports" placeholder="Search reports by patient name, ID, or diagnosis...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <div class="filters">
+                        <select id="statusFilter">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending Review</option>
+                            <option value="reviewed">Reviewed</option>
+                            <option value="completed">Completed</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                        <select id="typeFilter">
+                            <option value="">All Types</option>
+                            <option value="imaging">Imaging</option>
+                            <option value="lab">Lab Tests</option>
+                            <option value="consultation">Consultation</option>
+                            <option value="followup">Follow-up</option>
+                        </select>
+                        <select id="dateFilter">
+                            <option value="">All Dates</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="quarter">This Quarter</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-outline" id="exportReports">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                    <button class="btn btn-primary" id="createReport">
+                        <i class="fas fa-plus"></i> New Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Reports List -->
+            <div class="reports-container">
+                <div class="reports-list" id="reportsList">
+                    <!-- Reports will be populated by JavaScript -->
+                </div>
+
+                <div class="no-reports" id="noReports" style="display: none;">
+                    <div class="empty-state">
+                        <i class="fas fa-file-medical"></i>
+                        <h3>No Reports Found</h3>
+                        <p>No medical reports match your current filters. Try adjusting your search criteria.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Details Modal -->
+            <div class="modal" id="reportModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="modalTitle">Report Details</h2>
+                        <button class="close-btn" id="closeModal">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modalBody">
+                        <!-- Report content will be populated here -->
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-outline" id="downloadReport">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                        <button class="btn btn-primary" id="addAnnotation">
+                            <i class="fas fa-edit"></i> Add Annotation
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Annotation Modal -->
+            <div class="modal" id="annotationModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Add Doctor Annotation</h2>
+                        <button class="close-btn" id="closeAnnotationModal">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="annotationForm">
+                            <div class="form-group">
+                                <label for="annotationType">Annotation Type</label>
+                                <select id="annotationType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="diagnosis">Diagnosis</option>
+                                    <option value="treatment">Treatment Plan</option>
+                                    <option value="recommendation">Recommendation</option>
+                                    <option value="observation">Clinical Observation</option>
+                                    <option value="followup">Follow-up Instructions</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="annotationContent">Annotation Content</label>
+                                <textarea id="annotationContent" rows="6" placeholder="Enter your medical annotation..." required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="annotationPriority">Priority</label>
+                                <select id="annotationPriority" required>
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                    <option value="urgent">Urgent</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="doctorName">Doctor Name</label>
+                                <input type="text" id="doctorName" placeholder="Your name" required>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-outline" id="cancelAnnotation">Cancel</button>
+                        <button class="btn btn-primary" id="saveAnnotation">
+                            <i class="fas fa-save"></i> Save Annotation
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Statistics -->
+            <div class="reports-stats">
+                <h3>Reports Overview</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalReports">0</div>
+                        <div class="stat-label">Total Reports</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="pendingReports">0</div>
+                        <div class="stat-label">Pending Review</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="completedReports">0</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="urgentReports">0</div>
+                        <div class="stat-label">Urgent</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Global Medical AI Library</h3>
+                    <p>Empowering healthcare with artificial intelligence for better patient care and outcomes.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="ai-tools.html">AI Tools</a></li>
+                        <li><a href="assistant.html">AI Assistant</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="reports.html">Reports</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Contact Support</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Global Medical AI Library. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/reports.js"></script>
+</body>
+</html>

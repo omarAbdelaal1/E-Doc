@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools - Global Medical AI Library</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/cornerstone-core@2.3.0/dist/cornerstone.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cornerstone-tools@6.0.0/dist/cornerstoneTools.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <i class="fas fa-brain"></i>
+                <span>Global Medical AI Library</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="ai-tools.html" class="nav-link active">AI Tools</a></li>
+                <li><a href="assistant.html" class="nav-link">AI Assistant</a></li>
+                <li><a href="appointments.html" class="nav-link">Appointments</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="reports.html" class="nav-link">Reports</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>AI Medical Tools</h1>
+                <p>Upload medical images and lab data for AI-powered analysis and diagnosis</p>
+            </div>
+
+            <!-- AI Tools Grid -->
+            <div class="ai-tools-grid">
+                <!-- Medical Imaging AI -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-x-ray"></i>
+                        </div>
+                        <h2>Medical Imaging AI</h2>
+                        <p>Upload X-rays, MRIs, or CT scans for instant AI analysis</p>
+                    </div>
+                    
+                    <div class="upload-section">
+                        <div class="upload-area" id="imageUploadArea">
+                            <div class="upload-content">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & drop medical images here or click to browse</p>
+                                <span class="upload-hint">Supports: JPG, PNG, DICOM</span>
+                            </div>
+                            <input type="file" id="imageInput" accept=".jpg,.jpeg,.png,.dcm" multiple>
+                        </div>
+                        
+                        <div class="file-preview" id="imagePreview" style="display: none;">
+                            <h4>Selected Images:</h4>
+                            <div class="preview-grid" id="previewGrid"></div>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-full" id="analyzeImages" disabled>
+                            <i class="fas fa-brain"></i> Analyze with AI
+                        </button>
+                    </div>
+                    
+                    <div class="results-section" id="imageResults" style="display: none;">
+                        <h4>AI Analysis Results:</h4>
+                        <div class="loading-spinner" id="imageLoading" style="display: none;">
+                            <div class="spinner"></div>
+                            <p>Analyzing images with AI...</p>
+                        </div>
+                        <div class="results-content" id="imageResultsContent"></div>
+                    </div>
+                </div>
+
+                <!-- Lab Test AI -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h2>Lab Test Interpretation</h2>
+                        <p>Upload lab reports or enter test data for AI analysis</p>
+                    </div>
+                    
+                    <div class="upload-section">
+                        <div class="upload-tabs">
+                            <button class="tab-btn active" data-tab="file">File Upload</button>
+                            <button class="tab-btn" data-tab="manual">Manual Input</button>
+                        </div>
+                        
+                        <div class="tab-content active" id="fileTab">
+                            <div class="upload-area" id="labUploadArea">
+                                <div class="upload-content">
+                                    <i class="fas fa-file-upload"></i>
+                                    <p>Upload lab reports (PDF, CSV, or text files)</p>
+                                    <span class="upload-hint">Supports: PDF, CSV, TXT</span>
+                                </div>
+                                <input type="file" id="labInput" accept=".pdf,.csv,.txt">
+                            </div>
+                        </div>
+                        
+                        <div class="tab-content" id="manualTab">
+                            <div class="lab-input-form">
+                                <div class="form-group">
+                                    <label for="testName">Test Name</label>
+                                    <input type="text" id="testName" placeholder="e.g., Complete Blood Count">
+                                </div>
+                                <div class="form-group">
+                                    <label for="testValue">Test Value</label>
+                                    <input type="text" id="testValue" placeholder="e.g., 12.5">
+                                </div>
+                                <div class="form-group">
+                                    <label for="testUnit">Unit</label>
+                                    <input type="text" id="testUnit" placeholder="e.g., g/dL">
+                                </div>
+                                <div class="form-group">
+                                    <label for="referenceRange">Reference Range</label>
+                                    <input type="text" id="referenceRange" placeholder="e.g., 11.0-15.0">
+                                </div>
+                                <button class="btn btn-outline" id="addTest">Add Test</button>
+                            </div>
+                            <div class="tests-list" id="testsList"></div>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-full" id="analyzeLab" disabled>
+                            <i class="fas fa-brain"></i> Analyze Lab Data
+                        </button>
+                    </div>
+                    
+                    <div class="results-section" id="labResults" style="display: none;">
+                        <h4>AI Interpretation Results:</h4>
+                        <div class="loading-spinner" id="labLoading" style="display: none;">
+                            <div class="spinner"></div>
+                            <p>Analyzing lab data with AI...</p>
+                        </div>
+                        <div class="results-content" id="labResultsContent"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case History -->
+            <div class="case-history">
+                <h3>Recent AI Analysis Cases</h3>
+                <div class="cases-grid" id="casesGrid">
+                    <!-- Cases will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Global Medical AI Library</h3>
+                    <p>Empowering healthcare with artificial intelligence for better patient care and outcomes.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="ai-tools.html">AI Tools</a></li>
+                        <li><a href="assistant.html">AI Assistant</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="reports.html">Reports</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Contact Support</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Global Medical AI Library. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/ai-tools.js"></script>
+</body>
+</html>
