@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments - Global Medical AI Library</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-brand">
+                <i class="fas fa-brain"></i>
+                <span>Global Medical AI Library</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="ai-tools.html" class="nav-link">AI Tools</a></li>
+                <li><a href="assistant.html" class="nav-link">AI Assistant</a></li>
+                <li><a href="appointments.html" class="nav-link active">Appointments</a></li>
+                <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="reports.html" class="nav-link">Reports</a></li>
+            </ul>
+            <div class="nav-auth">
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Appointment Management</h1>
+                <p>Schedule and manage your medical appointments with AI-powered assistance</p>
+            </div>
+
+            <div class="appointments-container">
+                <!-- Appointment Booking Form -->
+                <div class="booking-section">
+                    <div class="section-header">
+                        <h2>Book New Appointment</h2>
+                        <p>Fill out the form below to schedule your appointment</p>
+                    </div>
+                    
+                    <form class="booking-form" id="bookingForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="appointmentType">Appointment Type</label>
+                                <select id="appointmentType" required>
+                                    <option value="">Select Type</option>
+                                    <option value="consultation">AI Consultation</option>
+                                    <option value="imaging">Medical Imaging Analysis</option>
+                                    <option value="lab">Lab Test Review</option>
+                                    <option value="followup">Follow-up Visit</option>
+                                    <option value="emergency">Emergency Consultation</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="specialty">Medical Specialty</label>
+                                <select id="specialty" required>
+                                    <option value="">Select Specialty</option>
+                                    <option value="cardiology">Cardiology</option>
+                                    <option value="neurology">Neurology</option>
+                                    <option value="oncology">Oncology</option>
+                                    <option value="orthopedics">Orthopedics</option>
+                                    <option value="radiology">Radiology</option>
+                                    <option value="general">General Medicine</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="appointmentDate">Preferred Date</label>
+                                <input type="date" id="appointmentDate" required min="">
+                            </div>
+                            <div class="form-group">
+                                <label for="appointmentTime">Preferred Time</label>
+                                <select id="appointmentTime" required>
+                                    <option value="">Select Time</option>
+                                    <option value="09:00">9:00 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="12:00">12:00 PM</option>
+                                    <option value="14:00">2:00 PM</option>
+                                    <option value="15:00">3:00 PM</option>
+                                    <option value="16:00">4:00 PM</option>
+                                    <option value="17:00">5:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="patientName">Patient Name</label>
+                                <input type="text" id="patientName" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="patientAge">Patient Age</label>
+                                <input type="number" id="patientAge" placeholder="Age" min="0" max="120" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="patientPhone">Phone Number</label>
+                                <input type="tel" id="patientPhone" placeholder="Phone Number" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="patientEmail">Email Address</label>
+                                <input type="email" id="patientEmail" placeholder="Email Address" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="symptoms">Symptoms/Reason for Visit</label>
+                            <textarea id="symptoms" rows="4" placeholder="Describe your symptoms or reason for the appointment..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="urgency">Urgency Level</label>
+                            <select id="urgency" required>
+                                <option value="routine">Routine</option>
+                                <option value="urgent">Urgent</option>
+                                <option value="emergency">Emergency</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="notes">Additional Notes</label>
+                            <textarea id="notes" rows="3" placeholder="Any additional information or special requests..."></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-large">
+                                <i class="fas fa-calendar-plus"></i> Schedule Appointment
+                            </button>
+                            <button type="reset" class="btn btn-outline btn-large">
+                                <i class="fas fa-undo"></i> Reset Form
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Upcoming Appointments -->
+                <div class="appointments-list">
+                    <div class="section-header">
+                        <h2>Upcoming Appointments</h2>
+                        <div class="list-controls">
+                            <select id="appointmentFilter">
+                                <option value="all">All Appointments</option>
+                                <option value="today">Today</option>
+                                <option value="week">This Week</option>
+                                <option value="month">This Month</option>
+                            </select>
+                            <button class="btn btn-outline btn-sm" id="refreshAppointments">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="appointments-table">
+                        <div class="table-header">
+                            <div class="table-row">
+                                <div class="table-cell">Date & Time</div>
+                                <div class="table-cell">Patient</div>
+                                <div class="table-cell">Type</div>
+                                <div class="table-cell">Specialty</div>
+                                <div class="table-cell">Status</div>
+                                <div class="table-cell">Actions</div>
+                            </div>
+                        </div>
+                        <div class="table-body" id="appointmentsTableBody">
+                            <!-- Appointments will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <div class="no-appointments" id="noAppointments" style="display: none;">
+                        <div class="empty-state">
+                            <i class="fas fa-calendar-times"></i>
+                            <h3>No Appointments Found</h3>
+                            <p>You don't have any upcoming appointments. Book your first appointment above!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointment Statistics -->
+            <div class="appointment-stats">
+                <h3>Appointment Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalAppointments">0</div>
+                        <div class="stat-label">Total Appointments</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="completedAppointments">0</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="pendingAppointments">0</div>
+                        <div class="stat-label">Pending</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="cancelledAppointments">0</div>
+                        <div class="stat-label">Cancelled</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Global Medical AI Library</h3>
+                    <p>Empowering healthcare with artificial intelligence for better patient care and outcomes.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="ai-tools.html">AI Tools</a></li>
+                        <li><a href="assistant.html">AI Assistant</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="reports.html">Reports</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Contact Support</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Global Medical AI Library. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/appointments.js"></script>
+</body>
+</html>
