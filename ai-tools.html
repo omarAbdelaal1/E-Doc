@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Tools - Global Medical AI Library</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/cornerstone-core@2.3.0/dist/cornerstone.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/cornerstone-tools@6.0.0/dist/cornerstoneTools.min.js"></script>
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
@@ -57,7 +59,7 @@
                         <h2>Medical Imaging AI</h2>
                         <p>Upload X-rays, MRIs, or CT scans for instant AI analysis</p>
                     </div>
-                    
+
                     <div class="upload-section">
                         <div class="upload-area" id="imageUploadArea">
                             <div class="upload-content">
@@ -67,17 +69,17 @@
                             </div>
                             <input type="file" id="imageInput" accept=".jpg,.jpeg,.png,.dcm" multiple>
                         </div>
-                        
+
                         <div class="file-preview" id="imagePreview" style="display: none;">
                             <h4>Selected Images:</h4>
                             <div class="preview-grid" id="previewGrid"></div>
                         </div>
-                        
+
                         <button class="btn btn-primary btn-full" id="analyzeImages" disabled>
                             <i class="fas fa-brain"></i> Analyze with AI
                         </button>
                     </div>
-                    
+
                     <div class="results-section" id="imageResults" style="display: none;">
                         <h4>AI Analysis Results:</h4>
                         <div class="loading-spinner" id="imageLoading" style="display: none;">
@@ -97,13 +99,13 @@
                         <h2>Lab Test Interpretation</h2>
                         <p>Upload lab reports or enter test data for AI analysis</p>
                     </div>
-                    
+
                     <div class="upload-section">
                         <div class="upload-tabs">
                             <button class="tab-btn active" data-tab="file">File Upload</button>
                             <button class="tab-btn" data-tab="manual">Manual Input</button>
                         </div>
-                        
+
                         <div class="tab-content active" id="fileTab">
                             <div class="upload-area" id="labUploadArea">
                                 <div class="upload-content">
@@ -114,7 +116,7 @@
                                 <input type="file" id="labInput" accept=".pdf,.csv,.txt">
                             </div>
                         </div>
-                        
+
                         <div class="tab-content" id="manualTab">
                             <div class="lab-input-form">
                                 <div class="form-group">
@@ -137,12 +139,12 @@
                             </div>
                             <div class="tests-list" id="testsList"></div>
                         </div>
-                        
+
                         <button class="btn btn-primary btn-full" id="analyzeLab" disabled>
                             <i class="fas fa-brain"></i> Analyze Lab Data
                         </button>
                     </div>
-                    
+
                     <div class="results-section" id="labResults" style="display: none;">
                         <h4>AI Interpretation Results:</h4>
                         <div class="loading-spinner" id="labLoading" style="display: none;">
@@ -209,4 +211,5 @@
     <script src="js/main.js"></script>
     <script src="js/ai-tools.js"></script>
 </body>
+
 </html>
