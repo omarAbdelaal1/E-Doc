@@ -4,40 +4,66 @@
 
 /* CSS Variables */
 :root {
-  /* Primary Brand Colors */
-  --primary-darkest: #081c15;
-  --primary-dark: #1b4332;
-  --primary: #2d6a4f;
-  --primary-light: #40916c;
-  --primary-lighter: #52b788;
+  /* Cool Clinical */
+  --cool-deep: #032f2f;
+  --cool-forest: #064b4a;
+  --cool-700: #0a6e6b;
+  --cool-500: #16b39a;
+  --cool-300: #3cd6b4;
+  --cool-100: #8ee1cc;
+  --cool-bg: #f1fffd;
 
-  /* Secondary & Accent */
-  --accent-dark: #40916c;
-  --accent: #74c69d;
-  --accent-light: #95d5b2;
+  /* Warm Organic */
+  --warm-deep: #13351f;
+  --warm-forest: #1f5a30;
+  --warm-700: #2e7d3a;
+  --warm-500: #3da85e;
+  --warm-300: #56c07a;
+  --warm-100: #8de09e;
+  --warm-bg: #fbfff8;
+
+  /* Shared neutrals */
+  --page-bg: #fafbfc;
+  --surface: #f3f6f7;
+  --text: #374151;
+  --white: #ffffff;
+  --danger: #dc2626;
+  --warning: #f59e0b;
+  --info: #0ea5e9;
+
+  /* Mapped design tokens (keeping existing names) */
+  --primary-darkest: var(--cool-deep);
+  --primary-dark: var(--cool-700);
+  --primary: var(--cool-500);
+  --primary-light: var(--cool-300);
+  --primary-lighter: var(--cool-100);
+
+  /* Secondary & Accent mapped to warm palette */
+  --accent-dark: var(--warm-700);
+  --accent: var(--warm-500);
+  --accent-light: var(--warm-300);
 
   /* Status Colors */
-  --success: #52b788;
-  --warning: #74c69d;
-  --error: #b7e4c7;
-  --info: #95d5b2;
+  --success: var(--warm-500);
+  --error: var(--danger);
+  /* keep warning and info from shared neutrals */
 
   /* Text Colors */
-  --text-primary: #081c15;
-  --text-secondary: #a9a9a9;
-  --text-muted: #b7b7b7;
-  --text-dark: #1e2124;
-  --text-light: #ffffff;
+  --text-primary: var(--text);
+  --text-secondary: var(--text);
+  --text-muted: #6b7280;
+  --text-dark: var(--text);
+  --text-light: var(--white);
 
   /* Background Colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #d8f3dc;
-  --bg-tertiary: #b7e4c7;
-  --bg-dark: #081c15;
+  --bg-primary: var(--white);
+  --bg-secondary: var(--surface);
+  --bg-tertiary: var(--page-bg);
+  --bg-dark: var(--cool-deep);
 
-  /* Border and Shadow Colors */
-  --border-color: #95d5b2;
-  --border-light: #b7e4c7;
+  /* Border and Shadows */
+  --border-color: var(--cool-100);
+  --border-light: var(--cool-100);
   --shadow-sm: 0 1px 2px 0 rgb(8 28 21 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(8 28 21 / 0.1),
     0 2px 4px -2px rgb(8 28 21 / 0.1);
@@ -73,7 +99,7 @@ body {
   font-family: var(--font-family);
   line-height: 1.6;
   color: var(--text-primary);
-  background-color: var(--bg-secondary);
+  background-color: var(--page-bg);
   overflow-x: hidden;
 }
 
@@ -678,7 +704,7 @@ a:hover {
 }
 
 .auth-divider span {
-  background-color: #ceedd6;
+  background-color: var(--surface);
   font-size: 1.25rem;
   position: relative;
   padding: 0 1rem;
@@ -723,8 +749,8 @@ a:hover {
 }
 
 .info-feature p {
-  opacity: 0.8;
   font-size: 0.875rem;
+  color: #222832;
 }
 
 /* AI Tools Page */
@@ -1040,6 +1066,10 @@ a:hover {
   margin-top: 4rem;
 }
 
+.footer p {
+  color: #cfcfcf;
+}
+
 .footer-content {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -1062,7 +1092,7 @@ a:hover {
 }
 
 .footer-section ul li a {
-  color: var(--text-muted);
+  color: #dfdfdf;
   transition: var(--transition);
 }
 
@@ -1096,7 +1126,7 @@ a:hover {
   text-align: center;
   padding-top: 2rem;
   border-top: 1px solid var(--text-muted);
-  color: var(--text-muted);
+  color: #dfdfdf;
 }
 
 /* AI Models Grid */
@@ -2952,14 +2982,14 @@ a:hover {
 }
 
 .btn-secondary:hover {
-  background: #2d6a4f;
-  color: white;
-  border: 1px solid #2d6a4f;
+  background: var(--primary-dark);
+  color: var(--white);
+  border: 1px solid var(--primary-dark);
 }
 
 .btn-outline {
   background: transparent;
-  color: black;
+  color: var(--text-primary);
   border: 2px solid var(--primary);
 }
 
@@ -3680,7 +3710,7 @@ a:hover {
 }
 
 .dashboard-btn-danger:hover {
-  background: #d32f2f;
+  background: var(--danger);
 }
 
 .dashboard-btn-sm {
