@@ -1222,6 +1222,8 @@ a:hover {
 }
 
 .community-card {
+  display: flex;
+  flex-flow: column wrap;
   background: var(--bg-primary);
   border-radius: var(--radius-lg);
   padding: 2rem;
@@ -1265,6 +1267,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  margin-top: auto;
 }
 
 .community-stats span {
@@ -2735,6 +2738,85 @@ a:hover {
 
   .chat-input input {
     margin-bottom: 1rem;
+  }
+}
+
+/* ===================== */
+/* Layout Refresh (UX-only; no colors changed) */
+/* ===================== */
+
+/* Wider container on large screens for more breathable layout */
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1320px;
+  }
+}
+
+/* Home: Features grid with varied spans for a magazine-style layout */
+@media (min-width: 1024px) {
+  .features-grid {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2.5rem;
+  }
+  .features-grid .feature-card:nth-child(1),
+  .features-grid .feature-card:nth-child(2) {
+    grid-column: span 6;
+  }
+  .features-grid .feature-card:nth-child(n + 3) {
+    grid-column: span 4;
+  }
+}
+
+/* Home: AI models grid with a featured first card */
+@media (min-width: 1024px) {
+  .ai-models-grid {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2.5rem;
+  }
+  .ai-models-grid .model-card:nth-child(1) {
+    grid-column: span 8;
+  }
+  .ai-models-grid .model-card:nth-child(2) {
+    grid-column: span 4;
+  }
+  .ai-models-grid .model-card:nth-child(n + 3) {
+    grid-column: span 4;
+  }
+}
+
+/* Home: Dashboard overview teaser with highlighted first two cards */
+@media (min-width: 1024px) {
+  .dashboard-overview {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2.5rem;
+  }
+  .dashboard-overview .overview-card:nth-child(1),
+  .dashboard-overview .overview-card:nth-child(2) {
+    grid-column: span 6;
+  }
+  .dashboard-overview .overview-card:nth-child(n + 3) {
+    grid-column: span 4;
+  }
+}
+
+/* Auth pages: emphasize info panel on the left and form on the right */
+@media (min-width: 1024px) {
+  .auth-container {
+    grid-template-columns: 5fr 7fr;
+    align-items: stretch;
+  }
+  .auth-info {
+    order: -1; /* move info panel to the left without changing HTML */
+  }
+  .auth-card {
+    padding: 3rem 3rem;
+  }
+}
+
+/* Sections: slightly more vertical rhythm on large screens */
+@media (min-width: 1280px) {
+  .section {
+    padding: 5rem 0;
   }
 }
 
