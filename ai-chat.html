@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat Assistant - E-Doc</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar">
+            <div class="dashboard-sidebar-header">
+                <a href="index.html" class="dashboard-logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>E-Doc</span>
+                </a>
+            </div>
+            
+            <nav class="dashboard-nav-menu">
+                <div class="dashboard-nav-section">
+                    <div class="dashboard-nav-section-title">Main</div>
+                    <div class="dashboard-nav-item">
+                        <a href="dashboard-new.html" class="dashboard-nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="ai-models.html" class="dashboard-nav-link">
+                            <i class="fas fa-brain"></i>
+                            <span>AI Models</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="ai-reports.html" class="dashboard-nav-link">
+                            <i class="fas fa-file-medical"></i>
+                            <span>AI Reports</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="ai-chat.html" class="dashboard-nav-link active">
+                            <i class="fas fa-comments"></i>
+                            <span>AI Chat</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="dashboard-nav-section">
+                    <div class="dashboard-nav-section-title">Management</div>
+                    <div class="dashboard-nav-item">
+                        <a href="appointments.html" class="dashboard-nav-link">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="patients.html" class="dashboard-nav-link">
+                            <i class="fas fa-users"></i>
+                            <span>Patients</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="analytics.html" class="dashboard-nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="team.html" class="dashboard-nav-link">
+                            <i class="fas fa-user-md"></i>
+                            <span>Team</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="dashboard-main">
+            <!-- Dashboard Header -->
+            <header class="dashboard-header">
+                <div class="dashboard-header-left">
+                    <button class="dashboard-mobile-toggle dashboard-hidden-mobile">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="dashboard-breadcrumb">
+                        <i class="fas fa-comments"></i>
+                        <span>AI Chat Assistant</span>
+                    </div>
+                </div>
+                
+                <div class="dashboard-header-right">
+                    <div class="chat-controls">
+                        <button class="dashboard-btn dashboard-btn-outline" onclick="clearChat()">
+                            <i class="fas fa-trash"></i>
+                            Clear Chat
+                        </button>
+                        <button class="dashboard-btn dashboard-btn-outline" onclick="exportChat()">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                    </div>
+                    
+                    <div class="dashboard-user-menu">
+                        <button class="dashboard-user-btn">
+                            <div class="dashboard-user-avatar">JD</div>
+                            <span>Dr. John Doe</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dashboard-user-dropdown">
+                            <a href="#profile"><i class="fas fa-user"></i> Profile</a>
+                            <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
+                            <a href="#help"><i class="fas fa-question-circle"></i> Help</a>
+                            <a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- AI Chat Content -->
+            <div class="dashboard-content">
+                <section class="dashboard-section">
+                    <div class="dashboard-section-header">
+                        <h2 class="dashboard-section-title">Medical AI Assistant</h2>
+                        <p class="dashboard-section-subtitle">Your intelligent medical consultation partner</p>
+                    </div>
+                    
+                    <div class="dashboard-section-content">
+                        <div class="chat-container">
+                            <!-- Chat Header -->
+                            <div class="chat-header">
+                                <div class="chat-status">
+                                    <span class="status-indicator online"></span>
+                                    <span class="status-text">AI Assistant Online</span>
+                                </div>
+                                <div class="chat-info">
+                                    <span class="chat-model">GPT-3.5 Medical</span>
+                                    <span class="chat-version">v2.1</span>
+                                </div>
+                            </div>
+
+                            <!-- Chat Messages -->
+                            <div class="chat-messages" id="chat-messages">
+                                <!-- Welcome message -->
+                                <div class="message ai-message">
+                                    <div class="message-avatar">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="message-content">
+                                        <div class="message-text">
+                                            Hello! I'm your medical AI assistant. I can help you with:
+                                            <ul>
+                                                <li>Medical information and explanations</li>
+                                                <li>Disease symptoms and conditions</li>
+                                                <li>Treatment options and medications</li>
+                                                <li>Medical terminology clarification</li>
+                                                <li>Research and case studies</li>
+                                            </ul>
+                                            <strong>Note:</strong> I provide educational information only and cannot replace professional medical advice. Always consult with qualified healthcare providers for diagnosis and treatment.
+                                        </div>
+                                        <div class="message-time">Just now</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Chat Input -->
+                            <div class="chat-input-container">
+                                <div class="chat-input-wrapper">
+                                    <textarea 
+                                        id="chat-input" 
+                                        class="chat-input" 
+                                        placeholder="Ask me anything about medical topics..."
+                                        rows="1"
+                                    ></textarea>
+                                    <button type="button" class="chat-send-btn" onclick="sendMessage()">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
+                                <div class="chat-suggestions">
+                                    <button class="suggestion-btn" onclick="useSuggestion('What are the common symptoms of diabetes?')">
+                                        Diabetes symptoms
+                                    </button>
+                                    <button class="suggestion-btn" onclick="useSuggestion('Explain hypertension treatment options')">
+                                        Hypertension treatment
+                                    </button>
+                                    <button class="suggestion-btn" onclick="useSuggestion('What is the difference between MRI and CT scan?')">
+                                        MRI vs CT scan
+                                    </button>
+                                    <button class="suggestion-btn" onclick="useSuggestion('Common side effects of antibiotics')">
+                                        Antibiotic side effects
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Sidebar -->
+                        <div class="chat-sidebar">
+                            <div class="dashboard-card">
+                                <div class="dashboard-card-header">
+                                    <h3 class="dashboard-card-title">Chat History</h3>
+                                    <div class="dashboard-card-icon">
+                                        <i class="fas fa-history"></i>
+                                    </div>
+                                </div>
+                                <div class="chat-history" id="chat-history">
+                                    <div class="history-item active">
+                                        <i class="fas fa-comment"></i>
+                                        <span>Current Session</span>
+                                    </div>
+                                    <!-- More history items will be added -->
+                                </div>
+                            </div>
+
+                            <div class="dashboard-card">
+                                <div class="dashboard-card-header">
+                                    <h3 class="dashboard-card-title">Quick Actions</h3>
+                                    <div class="dashboard-card-icon">
+                                        <i class="fas fa-bolt"></i>
+                                    </div>
+                                </div>
+                                <div class="quick-actions">
+                                    <button class="dashboard-btn dashboard-btn-outline" onclick="generateReport()">
+                                        <i class="fas fa-file-medical"></i>
+                                        Generate Report
+                                    </button>
+                                    <button class="dashboard-btn dashboard-btn-outline" onclick="scheduleFollowUp()">
+                                        <i class="fas fa-calendar-plus"></i>
+                                        Schedule Follow-up
+                                    </button>
+                                    <button class="dashboard-btn dashboard-btn-outline" onclick="addToNotes()">
+                                        <i class="fas fa-sticky-note"></i>
+                                        Add to Notes
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div id="chat-loading" class="chat-loading hidden">
+        <div class="loading-spinner"></div>
+        <span>AI is thinking...</span>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/ai-chat.js"></script>
+</body>
+</html>

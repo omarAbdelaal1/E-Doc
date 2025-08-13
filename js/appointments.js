@@ -1,750 +1,556 @@
-// Appointments JavaScript - Global Medical AI Library
-
-// Global variables
-let appointments = [];
-let doctors = [];
-let timeSlots = [];
-let currentUser = null;
-
-// Initialize Appointments
+// Appointments Management JavaScript
 document.addEventListener('DOMContentLoaded', function() {
     initializeAppointments();
-    loadAppointments();
-    loadDoctors();
-    setupEventListeners();
+    initializeFilters();
+    initializeCalendar();
+    initializeStats();
+    initializeModals();
 });
 
-// Initialize Appointments Components
+// Initialize appointments data
 function initializeAppointments() {
-    // Initialize date picker
-    setupDatePicker();
-    
-    // Initialize time slot generation
-    generateTimeSlots();
-    
-    // Load user data
-    loadCurrentUser();
-}
-
-// Setup Event Listeners
-function setupEventListeners() {
-    // Appointment form
-    const appointmentForm = document.getElementById('appointmentForm');
-    if (appointmentForm) {
-        appointmentForm.addEventListener('submit', handleAppointmentSubmit);
-    }
-    
-    // Date picker
-    const dateInput = document.getElementById('appointmentDate');
-    if (dateInput) {
-        dateInput.addEventListener('change', handleDateChange);
-    }
-    
-    // Doctor selection
-    const doctorSelect = document.getElementById('doctorSelect');
-    if (doctorSelect) {
-        doctorSelect.addEventListener('change', handleDoctorChange);
-    }
-    
-    // Time slot selection
-    const timeSelect = document.getElementById('timeSelect');
-    if (timeSelect) {
-        timeSelect.addEventListener('change', handleTimeChange);
-    }
-    
-    // Filter buttons
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    filterButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const filter = this.getAttribute('data-filter');
-            filterAppointments(filter);
-        });
-    });
-    
-    // Search input
-    const searchInput = document.getElementById('searchAppointments');
-    if (searchInput) {
-        searchInput.addEventListener('input', handleSearch);
-    }
-}
-
-// Setup Date Picker
-function setupDatePicker() {
-    const dateInput = document.getElementById('appointmentDate');
-    if (!dateInput) return;
-    
-    // Set minimum date to today
-    const today = new Date();
-    const minDate = today.toISOString().split('T')[0];
-    dateInput.min = minDate;
-    
-    // Set default date to today
-    dateInput.value = minDate;
-}
-
-// Generate Time Slots
-function generateTimeSlots() {
-    timeSlots = [];
-    
-    // Generate slots from 8 AM to 6 PM, 30-minute intervals
-    for (let hour = 8; hour < 18; hour++) {
-        for (let minute = 0; minute < 60; minute += 30) {
-            const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-            timeSlots.push(time);
-        }
-    }
-    
-    // Populate time select
-    const timeSelect = document.getElementById('timeSelect');
-    if (timeSelect) {
-        timeSelect.innerHTML = '<option value="">Select Time</option>';
-        timeSlots.forEach(time => {
-            const option = document.createElement('option');
-            option.value = time;
-            option.textContent = time;
-            timeSelect.appendChild(option);
-        });
-    }
-}
-
-// Load Current User
-async function loadCurrentUser() {
-    try {
-        // Get user from localStorage or API
-        const userData = localStorage.getItem('currentUser');
-        if (userData) {
-            currentUser = JSON.parse(userData);
-        } else {
-            // Fetch from API if not in localStorage
-            const response = await apiRequest('/api/user/profile/', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${authToken}`
-                }
-            });
-            
-            if (response.success) {
-                currentUser = response.data;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            }
-        }
-        
-        updateUserInfo();
-    } catch (error) {
-        console.error('Error loading current user:', error);
-    }
-}
-
-// Load Doctors
-async function loadDoctors() {
-    try {
-        const response = await apiRequest('/api/doctors/', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${authToken}`
-            }
-        });
-        
-        if (response.success) {
-            doctors = response.data;
-        } else {
-            // Use sample data if API fails
-            loadSampleDoctors();
-        }
-        
-        populateDoctorSelect();
-    } catch (error) {
-        console.error('Error loading doctors:', error);
-        loadSampleDoctors();
-    }
-}
-
-// Load Sample Doctors
-function loadSampleDoctors() {
-    doctors = [
-        { id: 1, name: 'Dr. Sarah Johnson', specialty: 'Cardiology', availability: 'Mon-Fri' },
-        { id: 2, name: 'Dr. Michael Chen', specialty: 'Neurology', availability: 'Mon-Thu' },
-        { id: 3, name: 'Dr. Emily Rodriguez', specialty: 'Oncology', availability: 'Mon-Fri' },
-        { id: 4, name: 'Dr. David Thompson', specialty: 'Orthopedics', availability: 'Tue-Sat' },
-        { id: 5, name: 'Dr. Lisa Wang', specialty: 'Dermatology', availability: 'Mon-Fri' }
-    ];
-}
-
-// Populate Doctor Select
-function populateDoctorSelect() {
-    const doctorSelect = document.getElementById('doctorSelect');
-    if (!doctorSelect) return;
-    
-    doctorSelect.innerHTML = '<option value="">Select Doctor</option>';
-    doctors.forEach(doctor => {
-        const option = document.createElement('option');
-        option.value = doctor.id;
-        option.textContent = `${doctor.name} - ${doctor.specialty}`;
-        doctorSelect.appendChild(option);
-    });
-}
-
-// Load Appointments
-async function loadAppointments() {
-    try {
-        const response = await apiRequest('/api/appointments/', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${authToken}`
-            }
-        });
-        
-        if (response.success) {
-            appointments = response.data;
-        } else {
-            // Use sample data if API fails
-            loadSampleAppointments();
-        }
-        
+    loadAppointments();
         displayAppointments();
-    } catch (error) {
-        console.error('Error loading appointments:', error);
-        loadSampleAppointments();
-    }
 }
 
-// Load Sample Appointments
-function loadSampleAppointments() {
-    appointments = [
+// Load appointments from localStorage or use default data
+function loadAppointments() {
+    let appointments = localStorage.getItem('appointments');
+    if (!appointments) {
+        // Default appointments data
+        const defaultAppointments = [
         {
             id: 1,
-            patientName: 'John Doe',
-            doctorName: 'Dr. Sarah Johnson',
-            specialty: 'Cardiology',
-            date: '2024-01-20',
+                patientName: 'Sarah Johnson',
+                patientId: 'P001',
+                date: '2024-01-15',
             time: '09:00',
-            status: 'confirmed',
-            type: 'consultation'
+                duration: 30,
+                type: 'Consultation',
+                status: 'Confirmed',
+                doctor: 'Dr. Smith',
+                notes: 'Follow-up consultation'
         },
         {
             id: 2,
-            patientName: 'Jane Smith',
-            doctorName: 'Dr. Michael Chen',
-            specialty: 'Neurology',
-            date: '2024-01-22',
-            time: '14:30',
-            status: 'pending',
-            type: 'follow-up'
+                patientName: 'Michael Chen',
+                patientId: 'P002',
+                date: '2024-01-15',
+                time: '10:30',
+                duration: 45,
+                type: 'Procedure',
+                status: 'Pending',
+                doctor: 'Dr. Johnson',
+                notes: 'Annual checkup'
         },
         {
             id: 3,
-            patientName: 'Bob Wilson',
-            doctorName: 'Dr. Emily Rodriguez',
-            specialty: 'Oncology',
-            date: '2024-01-25',
-            time: '11:00',
-            status: 'confirmed',
-            type: 'consultation'
-        }
-    ];
+                patientName: 'Emily Davis',
+                patientId: 'P003',
+                date: '2024-01-16',
+                time: '14:00',
+                duration: 60,
+                type: 'Surgery',
+                status: 'Confirmed',
+                doctor: 'Dr. Williams',
+                notes: 'Minor surgery'
+            }
+        ];
+        localStorage.setItem('appointments', JSON.stringify(defaultAppointments));
+        appointments = JSON.stringify(defaultAppointments);
+    }
+    return JSON.parse(appointments);
 }
 
-// Handle Appointment Submit
-async function handleAppointmentSubmit(e) {
-    e.preventDefault();
+// Display appointments in the list
+function displayAppointments() {
+    const appointments = loadAppointments();
+    const appointmentsList = document.querySelector('.appointments-list');
     
-    const formData = new FormData(e.target);
-    const appointmentData = {
-        patient_id: currentUser?.id || null,
-        doctor_id: formData.get('doctor'),
-        date: formData.get('date'),
-        time: formData.get('time'),
-        type: formData.get('type'),
-        reason: formData.get('reason'),
-        notes: formData.get('notes')
-    };
+    if (!appointmentsList) return;
     
-    // Validate form data
-    if (!validateAppointmentData(appointmentData)) {
+    appointmentsList.innerHTML = '';
+    
+    appointments.forEach(appointment => {
+        const appointmentCard = createAppointmentCard(appointment);
+        appointmentsList.appendChild(appointmentCard);
+    });
+}
+
+// Create appointment card element
+function createAppointmentCard(appointment) {
+    const card = document.createElement('div');
+    card.className = 'appointment-card';
+    card.innerHTML = `
+        <div class="appointment-header">
+            <div class="appointment-time">
+                <i class="fas fa-clock"></i>
+                <span>${appointment.time}</span>
+            </div>
+            <div class="appointment-status ${appointment.status.toLowerCase()}">
+                ${appointment.status}
+            </div>
+        </div>
+        <div class="appointment-body">
+            <h4>${appointment.patientName}</h4>
+            <p class="patient-id">ID: ${appointment.patientId}</p>
+            <p class="appointment-type">
+                <i class="fas fa-stethoscope"></i>
+                ${appointment.type}
+            </p>
+            <p class="appointment-doctor">
+                <i class="fas fa-user-md"></i>
+                ${appointment.doctor}
+            </p>
+            <p class="appointment-notes">${appointment.notes}</p>
+        </div>
+        <div class="appointment-actions">
+            <button onclick="editAppointment(${appointment.id})" class="btn btn-sm btn-outline">
+                <i class="fas fa-edit"></i> Edit
+            </button>
+            <button onclick="cancelAppointment(${appointment.id})" class="btn btn-sm btn-danger">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+        </div>
+    `;
+    return card;
+}
+
+// Initialize filters
+function initializeFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            filterAppointments(this.dataset.filter);
+        });
+    });
+    
+    // Search functionality
+    const searchInput = document.querySelector('.search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            searchAppointments(this.value);
+        });
+    }
+}
+
+// Filter appointments by status
+function filterAppointments(status) {
+    const appointments = loadAppointments();
+    let filteredAppointments = appointments;
+    
+    if (status !== 'all') {
+        filteredAppointments = appointments.filter(apt => apt.status.toLowerCase() === status);
+    }
+    
+    displayFilteredAppointments(filteredAppointments);
+}
+
+// Search appointments
+function searchAppointments(query) {
+    if (!query.trim()) {
+        displayAppointments();
         return;
     }
     
-    try {
-        showLoadingOverlay('Scheduling appointment...');
-        
-        const response = await apiRequest('/api/schedule-appointment/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            },
-            body: JSON.stringify(appointmentData)
-        });
-        
-        if (response.success) {
-            showAlert('Appointment scheduled successfully!', 'success');
-            
-            // Reset form
-            e.target.reset();
-            setupDatePicker();
-            
-            // Reload appointments
-            loadAppointments();
-            
-            // Show confirmation details
-            showAppointmentConfirmation(response.data);
-        } else {
-            showAlert(response.message || 'Failed to schedule appointment', 'error');
-        }
-        
-    } catch (error) {
-        console.error('Error scheduling appointment:', error);
-        showAlert('Error scheduling appointment. Please try again.', 'error');
-    } finally {
-        hideLoadingOverlay();
-    }
-}
-
-// Validate Appointment Data
-function validateAppointmentData(data) {
-    if (!data.doctor_id) {
-        showAlert('Please select a doctor', 'warning');
-        return false;
-    }
-    
-    if (!data.date) {
-        showAlert('Please select a date', 'warning');
-        return false;
-    }
-    
-    if (!data.time) {
-        showAlert('Please select a time', 'warning');
-        return false;
-    }
-    
-    if (!data.type) {
-        showAlert('Please select appointment type', 'warning');
-        return false;
-    }
-    
-    if (!data.reason.trim()) {
-        showAlert('Please provide a reason for the appointment', 'warning');
-        return false;
-    }
-    
-    // Check if date is in the past
-    const selectedDate = new Date(data.date);
-    const today = new Date();
-    if (selectedDate < today) {
-        showAlert('Please select a future date', 'warning');
-        return false;
-    }
-    
-    // Check if time slot is available
-    if (!isTimeSlotAvailable(data.date, data.time, data.doctor_id)) {
-        showAlert('This time slot is not available. Please select another time.', 'warning');
-        return false;
-    }
-    
-    return true;
-}
-
-// Check Time Slot Availability
-function isTimeSlotAvailable(date, time, doctorId) {
-    // Check if the slot conflicts with existing appointments
-    const conflictingAppointment = appointments.find(apt => 
-        apt.date === date && 
-        apt.time === time && 
-        apt.doctor_id === doctorId &&
-        apt.status !== 'cancelled'
+    const appointments = loadAppointments();
+    const filteredAppointments = appointments.filter(apt => 
+        apt.patientName.toLowerCase().includes(query.toLowerCase()) ||
+        apt.patientId.toLowerCase().includes(query.toLowerCase()) ||
+        apt.doctor.toLowerCase().includes(query.toLowerCase())
     );
     
-    return !conflictingAppointment;
+    displayFilteredAppointments(filteredAppointments);
 }
 
-// Handle Date Change
-function handleDateChange(e) {
-    const selectedDate = e.target.value;
-    updateAvailableTimeSlots(selectedDate);
-}
-
-// Handle Doctor Change
-function handleDoctorChange(e) {
-    const selectedDoctor = e.target.value;
-    if (selectedDoctor) {
-        updateAvailableTimeSlots(document.getElementById('appointmentDate').value, selectedDoctor);
-    }
-}
-
-// Handle Time Change
-function handleTimeChange(e) {
-    // Could add additional validation here
-}
-
-// Update Available Time Slots
-function updateAvailableTimeSlots(date, doctorId = null) {
-    const timeSelect = document.getElementById('timeSelect');
-    if (!timeSelect) return;
+// Display filtered appointments
+function displayFilteredAppointments(appointments) {
+    const appointmentsList = document.querySelector('.appointments-list');
+    if (!appointmentsList) return;
     
-    // Reset time selection
-    timeSelect.value = '';
-    
-    // Get all time slots
-    const allTimeSlots = [...timeSlots];
-    
-    // Filter out unavailable slots
-    const availableSlots = allTimeSlots.filter(time => {
-        if (!date) return true;
-        
-        // Check if slot conflicts with existing appointments
-        const conflictingAppointment = appointments.find(apt => 
-            apt.date === date && 
-            apt.time === time && 
-            (doctorId ? apt.doctor_id === doctorId : true) &&
-            apt.status !== 'cancelled'
-        );
-        
-        return !conflictingAppointment;
-    });
-    
-    // Update time select options
-    timeSelect.innerHTML = '<option value="">Select Time</option>';
-    availableSlots.forEach(time => {
-        const option = document.createElement('option');
-        option.value = time;
-        option.textContent = time;
-        timeSelect.appendChild(option);
-    });
-    
-    // Disable if no available slots
-    if (availableSlots.length === 0) {
-        timeSelect.disabled = true;
-        timeSelect.innerHTML = '<option value="">No available slots</option>';
-    } else {
-        timeSelect.disabled = false;
-    }
-}
-
-// Display Appointments
-function displayAppointments() {
-    const appointmentsContainer = document.getElementById('appointmentsList');
-    if (!appointmentsContainer) return;
-    
-    appointmentsContainer.innerHTML = '';
+    appointmentsList.innerHTML = '';
     
     if (appointments.length === 0) {
-        appointmentsContainer.innerHTML = `
-            <div class="no-appointments">
-                <i class="fas fa-calendar-times"></i>
-                <p>No appointments found</p>
-            </div>
-        `;
+        appointmentsList.innerHTML = '<div class="no-appointments">No appointments found</div>';
         return;
     }
     
     appointments.forEach(appointment => {
         const appointmentCard = createAppointmentCard(appointment);
-        appointmentsContainer.appendChild(appointmentCard);
+        appointmentsList.appendChild(appointmentCard);
     });
 }
 
-// Create Appointment Card
-function createAppointmentCard(appointment) {
-    const card = document.createElement('div');
-    card.className = `appointment-card ${appointment.status}`;
-    
-    const statusClass = getStatusClass(appointment.status);
-    const statusIcon = getStatusIcon(appointment.status);
-    
-    card.innerHTML = `
-        <div class="appointment-header">
-            <div class="appointment-info">
-                <h4>${appointment.patientName}</h4>
-                <p class="specialty">${appointment.specialty}</p>
+// Initialize calendar with free API integration
+function initializeCalendar() {
+    const calendarContainer = document.querySelector('.calendar-container');
+    if (calendarContainer) {
+        calendarContainer.innerHTML = `
+            <div class="calendar-header">
+                <button class="btn btn-sm btn-outline" onclick="previousMonth()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <h3 id="current-month">January 2024</h3>
+                <button class="btn btn-sm btn-outline" onclick="nextMonth()">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
-            <div class="appointment-status ${statusClass}">
-                <i class="${statusIcon}"></i>
-                <span>${appointment.status}</span>
+            <div class="calendar-grid">
+                <div class="calendar-weekdays">
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
             </div>
-        </div>
-        <div class="appointment-details">
-            <div class="detail-item">
-                <i class="fas fa-user-md"></i>
-                <span>${appointment.doctorName}</span>
-            </div>
-            <div class="detail-item">
-                <i class="fas fa-calendar"></i>
-                <span>${formatDate(appointment.date)}</span>
-            </div>
-            <div class="detail-item">
-                <i class="fas fa-clock"></i>
-                <span>${appointment.time}</span>
-            </div>
-            <div class="detail-item">
-                <i class="fas fa-stethoscope"></i>
-                <span>${appointment.type}</span>
+                <div class="calendar-days" id="calendar-days">
+                    <!-- Calendar days will be populated here -->
             </div>
         </div>
-        <div class="appointment-actions">
-            ${getAppointmentActions(appointment)}
-        </div>
-    `;
-    
-    return card;
-}
-
-// Get Status Class
-function getStatusClass(status) {
-    switch (status) {
-        case 'confirmed': return 'status-confirmed';
-        case 'pending': return 'status-pending';
-        case 'cancelled': return 'status-cancelled';
-        case 'completed': return 'status-completed';
-        default: return 'status-default';
-    }
-}
-
-// Get Status Icon
-function getStatusIcon(status) {
-    switch (status) {
-        case 'confirmed': return 'fas fa-check-circle';
-        case 'pending': return 'fas fa-clock';
-        case 'cancelled': return 'fas fa-times-circle';
-        case 'completed': return 'fas fa-check-double';
-        default: return 'fas fa-question-circle';
-    }
-}
-
-// Get Appointment Actions
-function getAppointmentActions(appointment) {
-    let actions = '';
-    
-    if (appointment.status === 'pending') {
-        actions += `
-            <button class="btn btn-success btn-sm" onclick="confirmAppointment(${appointment.id})">
-                <i class="fas fa-check"></i> Confirm
-            </button>
-        `;
-    }
-    
-    if (appointment.status === 'confirmed' || appointment.status === 'pending') {
-        actions += `
-            <button class="btn btn-warning btn-sm" onclick="rescheduleAppointment(${appointment.id})">
-                <i class="fas fa-calendar-alt"></i> Reschedule
-            </button>
-            <button class="btn btn-danger btn-sm" onclick="cancelAppointment(${appointment.id})">
-                <i class="fas fa-times"></i> Cancel
-            </button>
-        `;
-    }
-    
-    actions += `
-        <button class="btn btn-outline btn-sm" onclick="viewAppointmentDetails(${appointment.id})">
-            <i class="fas fa-eye"></i> View
-        </button>
-    `;
-    
-    return actions;
-}
-
-// Filter Appointments
-function filterAppointments(filter) {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    filterButtons.forEach(btn => btn.classList.remove('active'));
-    
-    event.target.classList.add('active');
-    
-    let filteredAppointments = [];
-    
-    switch (filter) {
-        case 'all':
-            filteredAppointments = appointments;
-            break;
-        case 'upcoming':
-            filteredAppointments = appointments.filter(apt => 
-                new Date(apt.date) >= new Date() && apt.status !== 'cancelled'
-            );
-            break;
-        case 'pending':
-            filteredAppointments = appointments.filter(apt => apt.status === 'pending');
-            break;
-        case 'confirmed':
-            filteredAppointments = appointments.filter(apt => apt.status === 'confirmed');
-            break;
-        case 'completed':
-            filteredAppointments = appointments.filter(apt => apt.status === 'completed');
-            break;
-        case 'cancelled':
-            filteredAppointments = appointments.filter(apt => apt.status === 'cancelled');
-            break;
-        default:
-            filteredAppointments = appointments;
-    }
-    
-    displayFilteredAppointments(filteredAppointments);
-}
-
-// Display Filtered Appointments
-function displayFilteredAppointments(filteredAppointments) {
-    const appointmentsContainer = document.getElementById('appointmentsList');
-    if (!appointmentsContainer) return;
-    
-    appointmentsContainer.innerHTML = '';
-    
-    if (filteredAppointments.length === 0) {
-        appointmentsContainer.innerHTML = `
-            <div class="no-appointments">
-                <i class="fas fa-calendar-times"></i>
-                <p>No appointments found for this filter</p>
+            <div class="calendar-legend">
+                <div class="legend-item">
+                    <span class="legend-color available"></span>
+                    <span>Available</span>
             </div>
+                <div class="legend-item">
+                    <span class="legend-color booked"></span>
+                    <span>Booked</span>
+            </div>
+                <div class="legend-item">
+                    <span class="legend-color today"></span>
+                    <span>Today</span>
+            </div>
+        </div>
         `;
-        return;
+        generateCalendarDays();
+        loadCalendarEvents();
     }
+}
+
+// Load calendar events from free API
+async function loadCalendarEvents() {
+    try {
+        // Using a free calendar API (example with Google Calendar API)
+        // For demo purposes, we'll simulate calendar data
+        const events = await fetchCalendarEvents();
+        displayCalendarEvents(events);
+    } catch (error) {
+        console.error('Error loading calendar events:', error);
+        // Fallback to local data
+        displayCalendarEvents(getLocalCalendarEvents());
+    }
+}
+
+// Fetch calendar events from free API
+async function fetchCalendarEvents() {
+    // Using a free calendar API - you can integrate with:
+    // 1. Google Calendar API (free tier available)
+    // 2. Outlook Calendar API (free tier available)
+    // 3. CalDAV servers (free)
     
-    filteredAppointments.forEach(appointment => {
-        const appointmentCard = createAppointmentCard(appointment);
-        appointmentsContainer.appendChild(appointmentCard);
+    // For demo purposes, returning simulated data
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve([
+                {
+                    date: '2024-01-15',
+                    type: 'appointment',
+                    title: 'Dr. Smith - Cardiology',
+                    time: '09:00'
+                },
+                {
+                    date: '2024-01-16',
+                    type: 'appointment',
+                    title: 'Dr. Johnson - Neurology',
+                    time: '14:30'
+                },
+                {
+                    date: '2024-01-18',
+                    type: 'surgery',
+                    title: 'Dr. Williams - Orthopedics',
+                    time: '11:00'
+                }
+            ]);
+        }, 500);
     });
 }
 
-// Handle Search
-function handleSearch(e) {
-    const searchTerm = e.target.value.toLowerCase();
-    
-    if (!searchTerm) {
-        displayAppointments();
-        return;
-    }
-    
-    const filteredAppointments = appointments.filter(appointment => 
-        appointment.patientName.toLowerCase().includes(searchTerm) ||
-        appointment.doctorName.toLowerCase().includes(searchTerm) ||
-        appointment.specialty.toLowerCase().includes(searchTerm) ||
-        appointment.type.toLowerCase().includes(searchTerm)
-    );
-    
-    displayFilteredAppointments(filteredAppointments);
+// Get local calendar events
+function getLocalCalendarEvents() {
+    const appointments = loadAppointments();
+    return appointments.map(apt => ({
+        date: apt.date,
+        type: 'appointment',
+        title: `${apt.doctor} - ${apt.type}`,
+        time: apt.time
+    }));
 }
 
-// Confirm Appointment
-async function confirmAppointment(appointmentId) {
-    if (!confirm('Are you sure you want to confirm this appointment?')) return;
+// Display calendar events
+function displayCalendarEvents(events) {
+    const calendarDays = document.getElementById('calendar-days');
+    if (!calendarDays) return;
     
-    try {
-        const response = await apiRequest(`/api/appointments/${appointmentId}/confirm/`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${authToken}`
+    // Add event indicators to calendar days
+    const dayElements = calendarDays.querySelectorAll('.calendar-day');
+    dayElements.forEach(dayElement => {
+        const date = dayElement.dataset.date;
+        if (date) {
+            const dayEvents = events.filter(event => event.date === date);
+            if (dayEvents.length > 0) {
+                dayElement.classList.add('has-events');
+                dayElement.title = dayEvents.map(event => `${event.time} - ${event.title}`).join('\n');
             }
-        });
-        
-        if (response.success) {
-            showAlert('Appointment confirmed successfully!', 'success');
-            loadAppointments();
-        } else {
-            showAlert(response.message || 'Failed to confirm appointment', 'error');
         }
-    } catch (error) {
-        console.error('Error confirming appointment:', error);
-        showAlert('Error confirming appointment', 'error');
-    }
+    });
 }
 
-// Reschedule Appointment
-function rescheduleAppointment(appointmentId) {
-    // This would typically open a modal or navigate to reschedule page
-    showAlert(`Rescheduling appointment ${appointmentId}`, 'info');
-}
-
-// Cancel Appointment
-async function cancelAppointment(appointmentId) {
-    if (!confirm('Are you sure you want to cancel this appointment?')) return;
+// Generate calendar days
+function generateCalendarDays() {
+    const calendarDays = document.getElementById('calendar-days');
+    if (!calendarDays) return;
     
-    try {
-        const response = await apiRequest(`/api/appointments/${appointmentId}/cancel/`, {
-            method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${authToken}`
-            }
-        });
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    
+    const firstDay = new Date(currentYear, currentMonth, 1);
+    const lastDay = new Date(currentYear, currentMonth + 1, 0);
+    const startDate = new Date(firstDay);
+    startDate.setDate(startDate.getDate() - firstDay.getDay());
+    
+    calendarDays.innerHTML = '';
+    
+    for (let i = 0; i < 42; i++) {
+        const date = new Date(startDate);
+        date.setDate(startDate.getDate() + i);
         
-        if (response.success) {
-            showAlert('Appointment cancelled successfully!', 'success');
-            loadAppointments();
-        } else {
-            showAlert(response.message || 'Failed to cancel appointment', 'error');
+        const dayElement = document.createElement('div');
+        dayElement.className = 'calendar-day';
+        
+        if (date.getMonth() === currentMonth) {
+            dayElement.classList.add('current-month');
         }
-    } catch (error) {
-        console.error('Error cancelling appointment:', error);
-        showAlert('Error cancelling appointment', 'error');
+        
+        if (date.toDateString() === currentDate.toDateString()) {
+            dayElement.classList.add('today');
+        }
+        
+        dayElement.textContent = date.getDate();
+        dayElement.onclick = () => selectDate(date);
+        
+        calendarDays.appendChild(dayElement);
     }
 }
 
-// View Appointment Details
-function viewAppointmentDetails(appointmentId) {
+// Select date
+function selectDate(date) {
+    const selectedDate = date.toISOString().split('T')[0];
+    showNewAppointmentModal(selectedDate);
+}
+
+// Initialize statistics
+function initializeStats() {
+    updateStats();
+}
+
+// Update appointment statistics
+function updateStats() {
+    const appointments = loadAppointments();
+    
+    const totalAppointments = appointments.length;
+    const confirmedAppointments = appointments.filter(apt => apt.status === 'Confirmed').length;
+    const pendingAppointments = appointments.filter(apt => apt.status === 'Pending').length;
+    const cancelledAppointments = appointments.filter(apt => apt.status === 'Cancelled').length;
+    
+    updateStatElement('total-appointments', totalAppointments);
+    updateStatElement('confirmed-appointments', confirmedAppointments);
+    updateStatElement('pending-appointments', pendingAppointments);
+    updateStatElement('cancelled-appointments', cancelledAppointments);
+}
+
+// Update individual stat element
+function updateStatElement(id, value) {
+    const element = document.getElementById(id);
+    if (element) {
+        element.textContent = value;
+    }
+}
+
+// Initialize modals
+function initializeModals() {
+    // New appointment modal
+    const newAppointmentBtn = document.querySelector('.btn-primary');
+    if (newAppointmentBtn) {
+        newAppointmentBtn.addEventListener('click', () => showNewAppointmentModal());
+    }
+    
+    // Close modals when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target.classList.contains('modal')) {
+            event.target.style.display = 'none';
+        }
+    });
+}
+
+// Show new appointment modal
+function showNewAppointmentModal(selectedDate = '') {
+    const modal = document.getElementById('new-appointment-modal');
+    if (modal) {
+        if (selectedDate) {
+            const dateInput = modal.querySelector('input[type="date"]');
+            if (dateInput) dateInput.value = selectedDate;
+        }
+        modal.style.display = 'block';
+    }
+}
+
+// Show edit appointment modal
+function editAppointment(appointmentId) {
+    const appointments = loadAppointments();
     const appointment = appointments.find(apt => apt.id === appointmentId);
-    if (appointment) {
-        showAppointmentDetailsModal(appointment);
-    }
-}
-
-// Show Appointment Confirmation
-function showAppointmentConfirmation(appointmentData) {
-    // This would typically show a modal with confirmation details
-    showAlert(`Appointment confirmed for ${appointmentData.date} at ${appointmentData.time}`, 'success');
-}
-
-// Show Appointment Details Modal
-function showAppointmentDetailsModal(appointment) {
-    // This would typically show a modal with detailed appointment information
-    showAlert(`Viewing details for appointment ${appointment.id}`, 'info');
-}
-
-// Update User Info
-function updateUserInfo() {
-    if (!currentUser) return;
     
-    const userInfoElement = document.getElementById('userInfo');
-    if (userInfoElement) {
-        userInfoElement.innerHTML = `
-            <div class="user-avatar">
-                <i class="fas fa-user"></i>
-            </div>
-            <div class="user-details">
-                <h4>${currentUser.name}</h4>
-                <p>${currentUser.role}</p>
-            </div>
-        `;
+    if (appointment) {
+        const modal = document.getElementById('edit-appointment-modal');
+        if (modal) {
+            // Populate form fields
+            const form = modal.querySelector('form');
+            if (form) {
+                form.querySelector('[name="patientName"]').value = appointment.patientName;
+                form.querySelector('[name="patientId"]').value = appointment.patientId;
+                form.querySelector('[name="date"]').value = appointment.date;
+                form.querySelector('[name="time"]').value = appointment.time;
+                form.querySelector('[name="duration"]').value = appointment.duration;
+                form.querySelector('[name="type"]').value = appointment.type;
+                form.querySelector('[name="doctor"]').value = appointment.doctor;
+                form.querySelector('[name="notes"]').value = appointment.notes;
+                form.dataset.appointmentId = appointmentId;
+            }
+            modal.style.display = 'block';
+        }
     }
 }
 
-// Format Date
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
+// Cancel appointment
+function cancelAppointment(appointmentId) {
+    if (confirm('Are you sure you want to cancel this appointment?')) {
+        const appointments = loadAppointments();
+        const appointmentIndex = appointments.findIndex(apt => apt.id === appointmentId);
+        
+        if (appointmentIndex !== -1) {
+            appointments[appointmentIndex].status = 'Cancelled';
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+            displayAppointments();
+            updateStats();
+            showNotification('Appointment cancelled successfully', 'success');
+        }
+    }
 }
 
-// Export Appointments
-function exportAppointments() {
-    try {
-        const exportData = {
-            exportDate: new Date().toISOString(),
-            appointments: appointments
+// Handle new appointment form submission
+function handleNewAppointment(event) {
+    event.preventDefault();
+    
+    const formData = new FormData(event.target);
+    const appointmentData = {
+        id: Date.now(),
+        patientName: formData.get('patientName'),
+        patientId: formData.get('patientId'),
+        date: formData.get('date'),
+        time: formData.get('time'),
+        duration: parseInt(formData.get('duration')),
+        type: formData.get('type'),
+        status: 'Pending',
+        doctor: formData.get('doctor'),
+        notes: formData.get('notes')
+    };
+    
+    const appointments = loadAppointments();
+    appointments.push(appointmentData);
+    localStorage.setItem('appointments', JSON.stringify(appointments));
+    
+    displayAppointments();
+    updateStats();
+    
+    // Close modal
+    const modal = document.getElementById('new-appointment-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+    
+    // Reset form
+    event.target.reset();
+    
+    showNotification('Appointment scheduled successfully', 'success');
+}
+
+// Handle edit appointment form submission
+function handleEditAppointment(event) {
+    event.preventDefault();
+    
+    const appointmentId = parseInt(event.target.dataset.appointmentId);
+    const formData = new FormData(event.target);
+    
+    const appointments = loadAppointments();
+    const appointmentIndex = appointments.findIndex(apt => apt.id === appointmentId);
+    
+    if (appointmentIndex !== -1) {
+        appointments[appointmentIndex] = {
+            ...appointments[appointmentIndex],
+            patientName: formData.get('patientName'),
+            patientId: formData.get('patientId'),
+            date: formData.get('date'),
+            time: formData.get('time'),
+            duration: parseInt(formData.get('duration')),
+            type: formData.get('type'),
+            doctor: formData.get('doctor'),
+            notes: formData.get('notes')
         };
         
-        const dataStr = JSON.stringify(exportData, null, 2);
-        const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        const url = URL.createObjectURL(dataBlob);
+        localStorage.setItem('appointments', JSON.stringify(appointments));
+        displayAppointments();
         
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `appointments-export-${new Date().toISOString().split('T')[0]}.json`;
-        link.click();
+        // Close modal
+        const modal = document.getElementById('edit-appointment-modal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
         
-        URL.revokeObjectURL(url);
-        showAlert('Appointments exported successfully', 'success');
-    } catch (error) {
-        console.error('Error exporting appointments:', error);
-        showAlert('Error exporting appointments', 'error');
+        showNotification('Appointment updated successfully', 'success');
     }
+}
+
+// Calendar navigation functions
+function previousMonth() {
+    // Implementation for previous month
+    console.log('Previous month clicked');
+}
+
+function nextMonth() {
+    // Implementation for next month
+    console.log('Next month clicked');
+}
+
+// Utility function to show notifications
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 100);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
 }

@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor's Dashboard - E-DOC</title>
+    <title>E-Doc - Medical Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-
 <body>
     <div class="dashboard-container">
         <!-- Sidebar Navigation -->
@@ -16,61 +14,61 @@
             <div class="dashboard-sidebar-header">
                 <a href="index.html" class="dashboard-logo">
                     <i class="fas fa-heartbeat"></i>
-                    <span>E-DOC</span>
+                    <span>E-Doc</span>
                 </a>
             </div>
-
+            
             <nav class="dashboard-nav-menu">
                 <div class="dashboard-nav-section">
                     <div class="dashboard-nav-section-title">Main</div>
                     <div class="dashboard-nav-item">
-                        <a href="#dashboard-home" class="dashboard-nav-link active">
+                        <a href="dashboard-new.html" class="dashboard-nav-link active">
                             <i class="fas fa-home"></i>
                             <span>Dashboard</span>
                         </a>
                     </div>
                     <div class="dashboard-nav-item">
-                        <a href="#ai-models" class="dashboard-nav-link">
+                        <a href="ai-models.html" class="dashboard-nav-link">
                             <i class="fas fa-brain"></i>
                             <span>AI Models</span>
                         </a>
                     </div>
                     <div class="dashboard-nav-item">
-                        <a href="#ai-reports" class="dashboard-nav-link">
+                        <a href="ai-reports.html" class="dashboard-nav-link">
                             <i class="fas fa-file-medical"></i>
                             <span>AI Reports</span>
                         </a>
                     </div>
                     <div class="dashboard-nav-item">
-                        <a href="#ai-chat" class="dashboard-nav-link">
+                        <a href="ai-chat.html" class="dashboard-nav-link">
                             <i class="fas fa-comments"></i>
                             <span>AI Chat</span>
                         </a>
                     </div>
                 </div>
-
+                
                 <div class="dashboard-nav-section">
                     <div class="dashboard-nav-section-title">Management</div>
                     <div class="dashboard-nav-item">
-                        <a href="#appointments" class="dashboard-nav-link">
+                        <a href="appointments.html" class="dashboard-nav-link">
                             <i class="fas fa-calendar-check"></i>
                             <span>Appointments</span>
                         </a>
                     </div>
                     <div class="dashboard-nav-item">
-                        <a href="#patients" class="dashboard-nav-link">
+                        <a href="patients.html" class="dashboard-nav-link">
                             <i class="fas fa-users"></i>
                             <span>Patients</span>
                         </a>
                     </div>
                     <div class="dashboard-nav-item">
-                        <a href="#analytics" class="dashboard-nav-link">
+                        <a href="analytics.html" class="dashboard-nav-link">
                             <i class="fas fa-chart-line"></i>
                             <span>Analytics</span>
                         </a>
                     </div>
                     <div class="dashboard-nav-item">
-                        <a href="#team" class="dashboard-nav-link">
+                        <a href="team.html" class="dashboard-nav-link">
                             <i class="fas fa-user-md"></i>
                             <span>Team</span>
                         </a>
@@ -88,17 +86,17 @@
                         <i class="fas fa-bars"></i>
                     </button>
                     <div class="dashboard-breadcrumb">
-                        <i class="fa-solid fa-chart-line"></i>
+                        <i class="fas fa-home"></i>
                         <span>Dashboard</span>
                     </div>
                 </div>
-
+                
                 <div class="dashboard-header-right">
                     <div class="dashboard-search">
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Search...">
                     </div>
-
+                    
                     <div class="dashboard-user-menu">
                         <button class="dashboard-user-btn">
                             <div class="dashboard-user-avatar">JD</div>
@@ -120,26 +118,47 @@
                 <!-- Dashboard Home Section -->
                 <section id="dashboard-home" class="dashboard-section">
                     <div class="dashboard-section-header">
-                        <h2 class="dashboard-section-title">Dashboard Overview</h2>
+                        <h2 class="dashboard-section-title">E-Doc Dashboard Overview</h2>
+                        <p class="dashboard-section-subtitle">Welcome to your comprehensive medical management system</p>
                     </div>
                     <div class="dashboard-section-content">
                         <!-- Stats Grid -->
                         <div class="dashboard-stats-grid">
                             <div class="stat-card">
-                                <div class="stat-number">24</div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="today-appointments">24</div>
                                 <div class="stat-label">Today's Appointments</div>
+                                </div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-number">156</div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="total-patients">156</div>
                                 <div class="stat-label">Total Patients</div>
+                                </div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-number">8</div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="team-members">8</div>
                                 <div class="stat-label">Team Members</div>
+                                </div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-number">12</div>
+                                <div class="stat-icon">
+                                    <i class="fas fa-file-medical"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="ai-reports">12</div>
                                 <div class="stat-label">AI Reports Generated</div>
+                                </div>
                             </div>
                         </div>
 
@@ -153,18 +172,22 @@
                                     </div>
                                 </div>
                                 <div class="quick-actions">
-                                    <a href="#ai-reports" class="dashboard-btn dashboard-btn-primary">
+                                    <button class="dashboard-btn dashboard-btn-primary" onclick="generateReport()">
                                         <i class="fas fa-plus"></i>
                                         Generate Report
-                                    </a>
-                                    <a href="#appointments" class="dashboard-btn dashboard-btn-secondary">
+                                    </button>
+                                    <button class="dashboard-btn dashboard-btn-secondary" onclick="newAppointment()">
                                         <i class="fas fa-calendar-plus"></i>
                                         New Appointment
-                                    </a>
-                                    <a href="#patients" class="dashboard-btn dashboard-btn-outline">
+                                    </button>
+                                    <button class="dashboard-btn dashboard-btn-outline" onclick="addPatient()">
                                         <i class="fas fa-user-plus"></i>
                                         Add Patient
-                                    </a>
+                                    </button>
+                                    <button class="dashboard-btn dashboard-btn-outline" onclick="openAIChat()">
+                                        <i class="fas fa-robot"></i>
+                                        AI Assistant
+                                    </button>
                                 </div>
                             </div>
 
@@ -175,553 +198,23 @@
                                         <i class="fas fa-clock"></i>
                                     </div>
                                 </div>
-                                <div class="activity-list">
-                                    <div class="activity-item">
-                                        <div class="activity-icon">
-                                            <i class="fas fa-user-check"></i>
-                                        </div>
-                                        <div class="activity-content">
-                                            <div class="activity-text">Patient Sarah Johnson checked in</div>
-                                            <div class="activity-time">2 minutes ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="activity-item">
-                                        <div class="activity-icon">
-                                            <i class="fas fa-file-medical"></i>
-                                        </div>
-                                        <div class="activity-content">
-                                            <div class="activity-text">AI Report generated for Case #1234</div>
-                                            <div class="activity-time">15 minutes ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="activity-item">
-                                        <div class="activity-icon">
-                                            <i class="fas fa-calendar-check"></i>
-                                        </div>
-                                        <div class="activity-content">
-                                            <div class="activity-text">Appointment scheduled for tomorrow</div>
-                                            <div class="activity-time">1 hour ago</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- AI Models Section -->
-                <section id="ai-models" class="dashboard-section">
-                    <div class="dashboard-section-header">
-                        <h2 class="dashboard-section-title">AI Models Available</h2>
-                    </div>
-                    <div class="dashboard-section-content">
-                        <div class="dashboard-grid">
-                            <div class="dashboard-card">
-                                <div class="dashboard-card-header">
-                                    <h3 class="dashboard-card-title">Diagnostic AI</h3>
-                                    <div class="dashboard-card-icon">
-                                        <i class="fas fa-stethoscope"></i>
-                                    </div>
-                                </div>
-                                <p>Advanced diagnostic assistance using machine learning algorithms trained on millions
-                                    of medical cases.</p>
-                                <a href="#ai-reports" class="dashboard-btn dashboard-btn-primary">
-                                    <i class="fas fa-play"></i>
-                                    Use Model
-                                </a>
-                            </div>
-
-                            <div class="dashboard-card">
-                                <div class="dashboard-card-header">
-                                    <h3 class="dashboard-card-title">Treatment Planner</h3>
-                                    <div class="dashboard-card-icon">
-                                        <i class="fas fa-pills"></i>
-                                    </div>
-                                </div>
-                                <p>AI-powered treatment recommendations based on patient history and current medical
-                                    guidelines.</p>
-                                <a href="#ai-reports" class="dashboard-btn dashboard-btn-primary">
-                                    <i class="fas fa-play"></i>
-                                    Use Model
-                                </a>
-                            </div>
-
-                            <div class="dashboard-card">
-                                <div class="dashboard-card-header">
-                                    <h3 class="dashboard-card-title">Medical Imaging</h3>
-                                    <div class="dashboard-card-icon">
-                                        <i class="fas fa-x-ray"></i>
-                                    </div>
-                                </div>
-                                <p>Computer vision AI for analyzing X-rays, MRIs, and CT scans with high accuracy.</p>
-                                <a href="#ai-reports" class="dashboard-btn dashboard-btn-primary">
-                                    <i class="fas fa-play"></i>
-                                    Use Model
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- AI Report Generation Section -->
-                <section id="ai-reports" class="dashboard-section">
-                    <div class="dashboard-section-header">
-                        <h2 class="dashboard-section-title">AI Report Generation</h2>
-                    </div>
-                    <div class="dashboard-section-content">
-                        <div class="dashboard-grid">
-                            <div class="dashboard-card">
-                                <div class="dashboard-card-header">
-                                    <h3 class="dashboard-card-title">Upload Medical Data</h3>
-                                    <div class="dashboard-card-icon">
-                                        <i class="fas fa-upload"></i>
-                                    </div>
-                                </div>
-                                <div class="report-upload-area">
-                                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
-                                    <div class="upload-text">
-                                        <h3>Click to upload files</h3>
-                                        <p>Support for PDF, DOC, images, and DICOM files</p>
-                                    </div>
-                                    <button class="upload-btn dashboard-btn dashboard-btn-outline">
-                                        <i class="fas fa-folder-open"></i>
-                                        Choose Files
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="dashboard-card">
-                                <div class="dashboard-card-header">
-                                    <h3 class="dashboard-card-title">Report Templates</h3>
-                                    <div class="dashboard-card-icon">
-                                        <i class="fas fa-file-alt"></i>
-                                    </div>
-                                </div>
-                                <div class="report-templates">
-                                    <div class="template-card">
-                                        <h4>General Consultation</h4>
-                                        <p>Standard consultation report template</p>
-                                    </div>
-                                    <div class="template-card">
-                                        <h4>Diagnostic Report</h4>
-                                        <p>Detailed diagnostic analysis template</p>
-                                    </div>
-                                    <div class="template-card">
-                                        <h4>Treatment Plan</h4>
-                                        <p>Comprehensive treatment planning template</p>
-                                    </div>
+                                <div class="activity-list" id="recent-activities">
+                                    <!-- Activities will be populated by JavaScript -->
                                 </div>
                             </div>
                         </div>
 
-                        <div class="dashboard-card">
-                            <div class="dashboard-card-header">
-                                <h3 class="dashboard-card-title">Generate Report</h3>
-                                <div class="dashboard-card-icon">
-                                    <i class="fas fa-magic"></i>
-                                </div>
-                            </div>
-                            <form class="report-form dashboard-form">
-                                <div class="dashboard-form-row">
-                                    <div class="dashboard-form-group">
-                                        <label class="dashboard-form-label">Patient Name</label>
-                                        <input type="text" name="patientName" class="dashboard-form-input" required>
-                                    </div>
-                                    <div class="dashboard-form-group">
-                                        <label class="dashboard-form-label">Report Type</label>
-                                        <select name="reportType" class="dashboard-form-select" required>
-                                            <option value="">Select report type</option>
-                                            <option value="consultation">General Consultation</option>
-                                            <option value="diagnostic">Diagnostic Report</option>
-                                            <option value="treatment">Treatment Plan</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="dashboard-form-group">
-                                    <label class="dashboard-form-label">Additional Notes</label>
-                                    <textarea name="notes" class="dashboard-form-textarea"
-                                        placeholder="Enter any additional notes or specific requirements..."></textarea>
-                                </div>
-                                <button type="submit" class="dashboard-btn dashboard-btn-primary dashboard-btn-lg">
-                                    <i class="fas fa-magic"></i>
-                                    Generate AI Report
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- AI Chat Assistant Section -->
-                <section id="ai-chat" class="dashboard-section">
-                    <div class="dashboard-section-header">
-                        <h2 class="dashboard-section-title">AI Chat Assistant</h2>
-                    </div>
-                    <div class="dashboard-section-content">
-                        <div class="dashboard-card">
-                            <div class="dashboard-card-header">
-                                <h3 class="dashboard-card-title">Medical AI Assistant</h3>
-                                <div class="dashboard-card-icon">
-                                    <i class="fas fa-robot"></i>
-                                </div>
-                            </div>
-                            <div class="chat-container">
-                                <div class="chat-header">
-                                    <span class="chat-status">
-                                        <i class="fas fa-circle"></i>
-                                        AI Assistant Online
-                                    </span>
-                                </div>
-                                <div class="chat-messages">
-                                    <!-- Messages will be populated by JavaScript -->
-                                </div>
-                                <div class="chat-input">
-                                    <input type="text" placeholder="Ask me anything about medical topics...">
-                                    <button type="button">
-                                        <i class="fas fa-paper-plane"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Appointments Section -->
-                <section id="appointments" class="dashboard-section">
-                    <div class="dashboard-section-header">
-                        <h2 class="dashboard-section-title">Appointments Management</h2>
-                    </div>
-                    <div class="dashboard-section-content">
-                        <div class="appointments-controls">
-                            <button class="dashboard-btn dashboard-btn-primary">
-                                <i class="fas fa-plus"></i>
-                                New Appointment
-                            </button>
-                            <div class="appointment-filters">
-                                <select class="dashboard-form-select">
-                                    <option value="all">All Appointments</option>
-                                    <option value="today">Today</option>
-                                    <option value="week">This Week</option>
-                                    <option value="month">This Month</option>
-                                </select>
-                            </div>
-                        </div>
-
+                        <!-- Upcoming Appointments Preview -->
                         <div class="dashboard-card">
                             <div class="dashboard-card-header">
                                 <h3 class="dashboard-card-title">Upcoming Appointments</h3>
                                 <div class="dashboard-card-icon">
                                     <i class="fas fa-calendar"></i>
                                 </div>
+                                <a href="appointments.html" class="dashboard-card-action">View All</a>
                             </div>
-                            <div class="appointments-list">
-                                <div class="appointment-card">
-                                    <div class="appointment-info">
-                                        <h4>Sarah Johnson - General Checkup</h4>
-                                        <p><i class="fas fa-clock"></i> Today, 2:00 PM</p>
-                                        <p><i class="fas fa-user"></i> Patient ID: #1234</p>
-                                    </div>
-                                    <div class="appointment-actions">
-                                        <button class="dashboard-btn dashboard-btn-secondary dashboard-btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                            Edit
-                                        </button>
-                                        <button class="dashboard-btn dashboard-btn-danger dashboard-btn-sm">
-                                            <i class="fas fa-times"></i>
-                                            Cancel
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="appointment-card">
-                                    <div class="appointment-info">
-                                        <h4>Michael Brown - Follow-up</h4>
-                                        <p><i class="fas fa-clock"></i> Tomorrow, 10:00 AM</p>
-                                        <p><i class="fas fa-user"></i> Patient ID: #1235</p>
-                                    </div>
-                                    <div class="appointment-actions">
-                                        <button class="dashboard-btn dashboard-btn-secondary dashboard-btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                            Edit
-                                        </button>
-                                        <button class="dashboard-btn dashboard-btn-danger dashboard-btn-sm">
-                                            <i class="fas fa-times"></i>
-                                            Cancel
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Patients Section -->
-                <section id="patients" class="dashboard-section">
-                    <div class="dashboard-section-header">
-                        <h2 class="dashboard-section-title">Patient Management</h2>
-                    </div>
-                    <div class="dashboard-section-content">
-                        <div class="patients-controls">
-                            <button class="dashboard-btn dashboard-btn-primary">
-                                <i class="fas fa-plus"></i>
-                                Add New Patient
-                            </button>
-                            <div class="search-box">
-                                <input type="text" placeholder="Search patients..." class="dashboard-form-input">
-                            </div>
-                        </div>
-
-                        <div class="dashboard-card">
-                            <div class="dashboard-card-header">
-                                <h3 class="dashboard-card-title">Patient Records</h3>
-                                <div class="dashboard-card-icon">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                            </div>
-                            <table class="dashboard-table">
-                                <thead>
-                                    <tr>
-                                        <th>Patient ID</th>
-                                        <th>Name</th>
-                                        <th>Age</th>
-                                        <th>Last Visit</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>#1234</td>
-                                        <td>Sarah Johnson</td>
-                                        <td>32</td>
-                                        <td>Today</td>
-                                        <td><span class="dashboard-status dashboard-status-success">Active</span></td>
-                                        <td>
-                                            <button class="dashboard-btn dashboard-btn-secondary dashboard-btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#1235</td>
-                                        <td>Michael Brown</td>
-                                        <td>45</td>
-                                        <td>Yesterday</td>
-                                        <td><span class="dashboard-status dashboard-status-success">Active</span></td>
-                                        <td>
-                                            <button class="dashboard-btn dashboard-btn-secondary dashboard-btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#1236</td>
-                                        <td>Emily Davis</td>
-                                        <td>28</td>
-                                        <td>3 days ago</td>
-                                        <td><span class="dashboard-status dashboard-status-warning">Follow-up</span>
-                                        </td>
-                                        <td>
-                                            <button class="dashboard-btn dashboard-btn-secondary dashboard-btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Time Analytics Section -->
-                <section id="analytics" class="dashboard-section">
-                    <div class="dashboard-section-header">
-                        <h2 class="dashboard-section-title">Time Analytics & Scheduling</h2>
-                    </div>
-                    <div class="dashboard-section-content">
-                        <div class="dashboard-stats-grid">
-                            <div class="stat-card">
-                                <div class="stat-number">45 min</div>
-                                <div class="stat-label">Average Consultation</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-number">9:00 AM</div>
-                                <div class="stat-label">Peak Hour Start</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-number">2:00 PM</div>
-                                <div class="stat-label">Peak Hour End</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-number">85%</div>
-                                <div class="stat-label">Schedule Efficiency</div>
-                            </div>
-                        </div>
-
-                        <div class="dashboard-grid">
-                            <div class="dashboard-card">
-                                <div class="dashboard-card-header">
-                                    <h3 class="dashboard-card-title">Consultation Duration Trends</h3>
-                                    <div class="dashboard-card-icon">
-                                        <i class="fas fa-chart-line"></i>
-                                    </div>
-                                </div>
-                                <div class="chart-container">
-                                    <div class="chart-placeholder">
-                                        <!-- Chart will be populated by JavaScript -->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="dashboard-card">
-                                <div class="dashboard-card-header">
-                                    <h3 class="dashboard-card-title">Peak Hours Analysis</h3>
-                                    <div class="dashboard-card-icon">
-                                        <i class="fas fa-clock"></i>
-                                    </div>
-                                </div>
-                                <div class="chart-container">
-                                    <div class="chart-placeholder">
-                                        <!-- Chart will be populated by JavaScript -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="dashboard-card">
-                            <div class="dashboard-card-header">
-                                <h3 class="dashboard-card-title">Scheduling Recommendations</h3>
-                                <div class="dashboard-card-icon">
-                                    <i class="fas fa-lightbulb"></i>
-                                </div>
-                            </div>
-                            <div class="key-metrics">
-                                <div class="metric-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Consider extending morning hours (8:00 AM - 12:00 PM) for high-demand
-                                        periods</span>
-                                </div>
-                                <div class="metric-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Reduce appointment gaps by scheduling follow-ups during less busy hours</span>
-                                </div>
-                                <div class="metric-item">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Optimize consultation duration based on appointment type and complexity</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Medical Team Management Section -->
-                <section id="team" class="dashboard-section">
-                    <div class="dashboard-section-header">
-                        <h2 class="dashboard-section-title">Medical Team Management</h2>
-                    </div>
-                    <div class="dashboard-section-content">
-                        <div class="team-controls">
-                            <button class="dashboard-btn dashboard-btn-primary">
-                                <i class="fas fa-plus"></i>
-                                Add Team Member
-                            </button>
-                            <button class="dashboard-btn dashboard-btn-secondary">
-                                <i class="fas fa-cog"></i>
-                                Team Settings
-                            </button>
-                        </div>
-
-                        <div class="dashboard-grid">
-                            <div class="dashboard-card">
-                                <div class="dashboard-card-header">
-                                    <h3 class="dashboard-card-title">Team Members</h3>
-                                    <div class="dashboard-card-icon">
-                                        <i class="fas fa-user-md"></i>
-                                    </div>
-                                </div>
-                                <div class="team-grid">
-                                    <div class="team-member-card">
-                                        <div class="member-avatar">JD</div>
-                                        <div class="member-info">
-                                            <h4>Dr. John Doe</h4>
-                                            <div class="member-role">Lead Physician</div>
-                                        </div>
-                                        <div class="member-actions">
-                                            <button class="dashboard-btn dashboard-btn-secondary dashboard-btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                                Edit
-                                            </button>
-                                            <button class="dashboard-btn dashboard-btn-danger dashboard-btn-sm">
-                                                <i class="fas fa-user-times"></i>
-                                                Remove
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="team-member-card">
-                                        <div class="member-avatar">JS</div>
-                                        <div class="member-info">
-                                            <h4>Dr. Jane Smith</h4>
-                                            <div class="member-role">Specialist</div>
-                                        </div>
-                                        <div class="member-actions">
-                                            <button class="dashboard-btn dashboard-btn-secondary dashboard-btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                                Edit
-                                            </button>
-                                            <button class="dashboard-btn dashboard-btn-danger dashboard-btn-sm">
-                                                <i class="fas fa-user-times"></i>
-                                                Remove
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="team-member-card">
-                                        <div class="member-avatar">RW</div>
-                                        <div class="member-info">
-                                            <h4>Dr. Robert Wilson</h4>
-                                            <div class="member-role">Resident</div>
-                                        </div>
-                                        <div class="member-actions">
-                                            <button class="dashboard-btn dashboard-btn-secondary dashboard-btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                                Edit
-                                            </button>
-                                            <button class="dashboard-btn dashboard-btn-danger dashboard-btn-sm">
-                                                <i class="fas fa-user-times"></i>
-                                                Remove
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="dashboard-card">
-                                <div class="dashboard-card-header">
-                                    <h3 class="dashboard-card-title">Collaboration Tools</h3>
-                                    <div class="dashboard-card-icon">
-                                        <i class="fas fa-tools"></i>
-                                    </div>
-                                </div>
-                                <div class="collaboration-tools">
-                                    <div class="tools-grid">
-                                        <div class="tool-item">
-                                            <i class="fas fa-comments"></i>
-                                            <span>Team Chat</span>
-                                        </div>
-                                        <div class="tool-item">
-                                            <i class="fas fa-calendar-alt"></i>
-                                            <span>Shared Calendar</span>
-                                        </div>
-                                        <div class="tool-item">
-                                            <i class="fas fa-file-alt"></i>
-                                            <span>Document Sharing</span>
-                                        </div>
-                                        <div class="tool-item">
-                                            <i class="fas fa-tasks"></i>
-                                            <span>Task Management</span>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="appointments-preview" id="appointments-preview">
+                                <!-- Appointments will be populated by JavaScript -->
                             </div>
                         </div>
                     </div>
@@ -733,8 +226,20 @@
     <!-- Mobile Overlay -->
     <div class="dashboard-overlay"></div>
 
+    <!-- Modals -->
+    <div id="quick-action-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Quick Action</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Modal content will be populated -->
+            </div>
+        </div>
+    </div>
+
     <script src="js/main.js"></script>
     <script src="js/dashboard.js"></script>
 </body>
-
 </html>

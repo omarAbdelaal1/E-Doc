@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - E-Doc</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar">
+            <div class="dashboard-sidebar-header">
+                <a href="index.html" class="dashboard-logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>E-Doc</span>
+                </a>
+            </div>
+            
+            <nav class="dashboard-nav-menu">
+                <div class="dashboard-nav-section">
+                    <div class="dashboard-nav-section-title">Main</div>
+                    <div class="dashboard-nav-item">
+                        <a href="dashboard-new.html" class="dashboard-nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="ai-models.html" class="dashboard-nav-link">
+                            <i class="fas fa-brain"></i>
+                            <span>AI Models</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="ai-reports.html" class="dashboard-nav-link">
+                            <i class="fas fa-file-medical"></i>
+                            <span>AI Reports</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="ai-chat.html" class="dashboard-nav-link">
+                            <i class="fas fa-comments"></i>
+                            <span>AI Chat</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="dashboard-nav-section">
+                    <div class="dashboard-nav-section-title">Management</div>
+                    <div class="dashboard-nav-item">
+                        <a href="appointments.html" class="dashboard-nav-link">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="patients.html" class="dashboard-nav-link">
+                            <i class="fas fa-users"></i>
+                            <span>Patients</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="analytics.html" class="dashboard-nav-link active">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="team.html" class="dashboard-nav-link">
+                            <i class="fas fa-user-md"></i>
+                            <span>Team</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="dashboard-main">
+            <!-- Dashboard Header -->
+            <header class="dashboard-header">
+                <div class="dashboard-header-left">
+                    <button class="dashboard-mobile-toggle dashboard-hidden-mobile">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="dashboard-breadcrumb">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics & Insights</span>
+                    </div>
+                </div>
+                
+                <div class="dashboard-header-right">
+                    <div class="analytics-controls">
+                        <select class="dashboard-form-select" id="time-range">
+                            <option value="7">Last 7 Days</option>
+                            <option value="30" selected>Last 30 Days</option>
+                            <option value="90">Last 3 Months</option>
+                            <option value="365">Last Year</option>
+                        </select>
+                        <button class="dashboard-btn dashboard-btn-outline" onclick="exportAnalytics()">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                    </div>
+                    
+                    <div class="dashboard-user-menu">
+                        <button class="dashboard-user-btn">
+                            <div class="dashboard-user-avatar">JD</div>
+                            <span>Dr. John Doe</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dashboard-user-dropdown">
+                            <a href="#profile"><i class="fas fa-user"></i> Profile</a>
+                            <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
+                            <a href="#help"><i class="fas fa-question-circle"></i> Help</a>
+                            <a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Analytics Content -->
+            <div class="dashboard-content">
+                <section class="dashboard-section">
+                    <div class="dashboard-section-header">
+                        <h2 class="dashboard-section-title">Analytics & Insights</h2>
+                        <p class="dashboard-section-subtitle">Comprehensive analysis of your medical practice performance</p>
+                    </div>
+                    
+                    <div class="dashboard-section-content">
+                        <!-- Key Performance Indicators -->
+                        <div class="dashboard-stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="total-appointments">342</div>
+                                    <div class="stat-label">Total Appointments</div>
+                                    <div class="stat-change positive">+12.5%</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="new-patients">28</div>
+                                    <div class="stat-label">New Patients</div>
+                                    <div class="stat-change positive">+8.3%</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="avg-consultation">32</div>
+                                    <div class="stat-label">Avg. Consultation (min)</div>
+                                    <div class="stat-change negative">-2.1%</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="satisfaction-rate">94.2%</div>
+                                    <div class="stat-label">Patient Satisfaction</div>
+                                    <div class="stat-change positive">+1.8%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Charts Section -->
+                        <div class="dashboard-grid">
+                            <div class="dashboard-card">
+                                <div class="dashboard-card-header">
+                                    <h3 class="dashboard-card-title">Appointment Trends</h3>
+                                    <div class="dashboard-card-icon">
+                                        <i class="fas fa-chart-line"></i>
+                                    </div>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="appointments-chart"></canvas>
+                                </div>
+                            </div>
+
+                            <div class="dashboard-card">
+                                <div class="dashboard-card-header">
+                                    <h3 class="dashboard-card-title">Patient Demographics</h3>
+                                    <div class="dashboard-card-icon">
+                                        <i class="fas fa-chart-pie"></i>
+                                    </div>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="demographics-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-grid">
+                            <div class="dashboard-card">
+                                <div class="dashboard-card-header">
+                                    <h3 class="dashboard-card-title">AI Model Usage</h3>
+                                    <div class="dashboard-card-icon">
+                                        <i class="fas fa-brain"></i>
+                                    </div>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="ai-usage-chart"></canvas>
+                                </div>
+                            </div>
+
+                            <div class="dashboard-card">
+                                <div class="dashboard-card-header">
+                                    <h3 class="dashboard-card-title">Revenue Analysis</h3>
+                                    <div class="dashboard-card-icon">
+                                        <i class="fas fa-dollar-sign"></i>
+                                    </div>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="revenue-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detailed Analytics -->
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-header">
+                                <h3 class="dashboard-card-title">Performance Insights</h3>
+                                <div class="dashboard-card-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                            </div>
+                            <div class="insights-grid">
+                                <div class="insight-item positive">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-arrow-up"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h4>Appointment Growth</h4>
+                                        <p>Your appointment bookings have increased by 12.5% compared to last month. This suggests effective patient retention strategies.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="insight-item positive">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-arrow-up"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h4>AI Model Adoption</h4>
+                                        <p>AI model usage has increased by 23% this month, indicating growing trust in AI-assisted medical tools.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="insight-item warning">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h4>Consultation Duration</h4>
+                                        <p>Average consultation time has decreased slightly. Consider reviewing appointment scheduling to ensure adequate patient care time.</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="insight-item info">
+                                    <div class="insight-icon">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div class="insight-content">
+                                        <h4>Patient Satisfaction</h4>
+                                        <p>Patient satisfaction remains high at 94.2%. Continue focusing on quality care and patient experience.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Time Analytics -->
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-header">
+                                <h3 class="dashboard-card-title">Time Analytics & Scheduling</h3>
+                                <div class="dashboard-card-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                            </div>
+                            <div class="time-analytics-content">
+                                <div class="dashboard-grid">
+                                    <div class="time-metrics">
+                                        <div class="metric-item">
+                                            <div class="metric-label">Peak Hours</div>
+                                            <div class="metric-value">9:00 AM - 2:00 PM</div>
+                                        </div>
+                                        <div class="metric-item">
+                                            <div class="metric-label">Average Wait Time</div>
+                                            <div class="metric-value">8.5 minutes</div>
+                                        </div>
+                                        <div class="metric-item">
+                                            <div class="metric-label">Schedule Efficiency</div>
+                                            <div class="metric-value">87.3%</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="schedule-recommendations">
+                                        <h4>Optimization Recommendations</h4>
+                                        <ul>
+                                            <li>Consider extending morning hours (8:00 AM - 12:00 PM) for high-demand periods</li>
+                                            <li>Reduce appointment gaps by scheduling follow-ups during less busy hours</li>
+                                            <li>Optimize consultation duration based on appointment type and complexity</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/analytics.js"></script>
+</body>
+</html>

@@ -13,8 +13,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize interactive elements
   initializeInteractiveElements();
 
-  // Initialize mobile menu functionality
-  initializeMobileMenu();
+  // Initialize quick actions
+  initializeQuickActions();
+
+  // Initialize recent activities
+  initializeRecentActivities();
+
+  // Initialize appointments preview
+  initializeAppointmentsPreview();
 });
 
 function initializeDashboard() {
@@ -27,6 +33,9 @@ function initializeDashboard() {
 
   // Initialize search functionality
   initializeSearch();
+
+  // Initialize stats with real-time updates
+  initializeStats();
 }
 
 function updateDateTime() {
@@ -109,12 +118,6 @@ function initializeAIChat() {
         sendMessage();
       }
     });
-
-    // Add welcome message
-    addMessage(
-      "assistant",
-      "Hello! I'm your AI medical assistant. How can I help you today?"
-    );
   }
 }
 
@@ -122,356 +125,522 @@ function sendMessage() {
   const chatInput = document.querySelector(".chat-input input");
   const message = chatInput.value.trim();
 
-  if (message) {
-    // Add user message
-    addMessage("user", message);
+  if (!message) return;
 
-    // Clear input
-    chatInput.value = "";
+  // Add user message
+  addChatMessage("user", message);
 
-    // Simulate AI response (in real app, this would call an API)
-    setTimeout(() => {
-      const aiResponse = generateAIResponse(message);
-      addMessage("assistant", aiResponse);
-    }, 1000);
-  }
+  // Clear input
+  chatInput.value = "";
+
+  // Simulate AI response
+  setTimeout(() => {
+    const aiResponse = generateAIResponse(message);
+    addChatMessage("ai", aiResponse);
+  }, 1000);
 }
 
-function addMessage(sender, text) {
+function addChatMessage(sender, message) {
   const chatMessages = document.querySelector(".chat-messages");
   const messageDiv = document.createElement("div");
-  messageDiv.className = `message ${sender}`;
+  messageDiv.className = `message ${sender}-message`;
 
-  const avatar = document.createElement("div");
-  avatar.className = "message-avatar";
-  avatar.innerHTML =
-    sender === "user"
-      ? '<i class="fas fa-user"></i>'
-      : '<i class="fas fa-robot"></i>';
+  const icon = sender === "user" ? "fa-user-md" : "fa-robot";
+  const timestamp = new Date().toLocaleTimeString();
 
-  const content = document.createElement("div");
-  content.className = "message-content";
-  content.innerHTML = `<p>${text}</p>`;
-
-  messageDiv.appendChild(avatar);
-  messageDiv.appendChild(content);
+  messageDiv.innerHTML = `
+        <div class="message-avatar">
+            <i class="fas ${icon}"></i>
+        </div>
+        <div class="message-content">
+            <div class="message-text">${message}</div>
+            <div class="message-time">${timestamp}</div>
+        </div>
+    `;
 
   chatMessages.appendChild(messageDiv);
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-function generateAIResponse(userMessage) {
-  // Simple response generation (in real app, this would be more sophisticated)
+function generateAIResponse(message) {
   const responses = [
-    "I understand your question about that medical topic. Let me provide you with some information...",
-    "Based on the symptoms you've described, I recommend consulting with a healthcare professional for proper diagnosis.",
-    "That's an interesting medical case. Here are some considerations to discuss with your medical team...",
-    "I can help you with that medical information. Let me break it down for you...",
-    "For that type of medical analysis, I'd suggest reviewing the latest clinical guidelines and consulting with specialists.",
+    "I understand your question about medical procedures. Let me provide you with some information...",
+    "Based on the symptoms you've described, here are some considerations...",
+    "This is an interesting medical case. Let me analyze the information...",
+    "I can help you with that medical query. Here's what I found...",
+    "For this type of medical question, I recommend consulting the latest guidelines...",
   ];
 
   return responses[Math.floor(Math.random() * responses.length)];
 }
 
 function initializeForms() {
-  // Report generation form
-  const reportForm = document.querySelector(".report-form");
-  if (reportForm) {
-    reportForm.addEventListener("submit", handleReportSubmission);
-  }
-
-  // Template selection
-  const templateCards = document.querySelectorAll(".template-card");
-  templateCards.forEach((card) => {
-    card.addEventListener("click", function () {
-      // Remove previous selection
-      templateCards.forEach((c) => c.classList.remove("selected"));
-      // Add selection to clicked card
-      this.classList.add("selected");
+  const forms = document.querySelectorAll("form");
+  forms.forEach((form) => {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      handleFormSubmission(this);
     });
   });
-
-  // File upload simulation
-  const uploadArea = document.querySelector(".report-upload-area");
-  if (uploadArea) {
-    uploadArea.addEventListener("click", function () {
-      // Simulate file selection
-      const input = document.createElement("input");
-      input.type = "file";
-      input.accept = ".pdf,.doc,.docx,.jpg,.png,.dcm";
-      input.onchange = function (e) {
-        if (e.target.files.length > 0) {
-          handleFileUpload(e.target.files[0]);
-        }
-      };
-      input.click();
-    });
-  }
 }
 
-function handleReportSubmission(e) {
-  e.preventDefault();
-
-  const formData = new FormData(e.target);
+function handleFormSubmission(form) {
+  const formData = new FormData(form);
   const data = Object.fromEntries(formData);
 
-  // Validate form
-  if (!data.patientName || !data.reportType) {
-    showNotification("Please fill in all required fields", "error");
-    return;
-  }
+  // Simulate form processing
+  console.log("Form submitted:", data);
 
-  // Simulate report generation
-  showNotification("Generating report...", "info");
+  // Show success message
+  showNotification("Form submitted successfully!", "success");
 
-  setTimeout(() => {
-    showNotification("Report generated successfully!", "success");
-    // Reset form
-    e.target.reset();
-    // Remove template selection
-    document.querySelectorAll(".template-card").forEach((card) => {
-      card.classList.remove("selected");
-    });
-  }, 3000);
-}
-
-function handleFileUpload(file) {
-  const uploadArea = document.querySelector(".report-upload-area");
-  const uploadText = uploadArea.querySelector(".upload-text");
-
-  // Show file info
-  uploadText.innerHTML = `
-        <h3>File Selected: ${file.name}</h3>
-        <p>Size: ${(file.size / 1024 / 1024).toFixed(2)} MB</p>
-        <p>Type: ${file.type || "Unknown"}</p>
-    `;
-
-  // Change upload area style
-  uploadArea.style.borderColor = "var(--success)";
-  uploadArea.style.background = "var(--bg-tertiary)";
-
-  showNotification(`File "${file.name}" uploaded successfully`, "success");
+  // Reset form
+  form.reset();
 }
 
 function initializeInteractiveElements() {
-  // Appointment actions
-  const actionButtons = document.querySelectorAll(".action-btn");
-  actionButtons.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const action = this.classList.contains("edit") ? "edit" : "cancel";
-      const appointmentInfo = this.closest(".appointment-card").querySelector(
-        ".appointment-info h4"
-      ).textContent;
+  // Initialize dropdowns
+  initializeDropdowns();
 
-      if (action === "edit") {
-        showNotification(`Editing appointment: ${appointmentInfo}`, "info");
-      } else {
-        if (confirm(`Are you sure you want to cancel: ${appointmentInfo}?`)) {
-          showNotification(
-            `Appointment cancelled: ${appointmentInfo}`,
-            "success"
-          );
-          this.closest(".appointment-card").remove();
-        }
-      }
+  // Initialize modals
+  initializeModals();
+
+  // Initialize mobile menu
+  initializeMobileMenu();
+}
+
+function initializeDropdowns() {
+  const dropdowns = document.querySelectorAll(".dashboard-user-dropdown");
+
+  dropdowns.forEach((dropdown) => {
+    const button = dropdown.previousElementSibling;
+
+    button.addEventListener("click", function (e) {
+      e.stopPropagation();
+      dropdown.classList.toggle("show");
     });
   });
 
-  // Team member actions
-  const memberActionButtons = document.querySelectorAll(".member-action-btn");
-  memberActionButtons.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const action = this.classList.contains("edit") ? "edit" : "remove";
-      const memberName =
-        this.closest(".team-member-card").querySelector(
-          ".member-info h4"
-        ).textContent;
+  // Close dropdowns when clicking outside
+  document.addEventListener("click", function () {
+    dropdowns.forEach((dropdown) => dropdown.classList.remove("show"));
+  });
+}
 
-      if (action === "edit") {
-        showNotification(`Editing team member: ${memberName}`, "info");
-      } else {
-        if (
-          confirm(
-            `Are you sure you want to remove ${memberName} from the team?`
-          )
-        ) {
-          showNotification(`Team member removed: ${memberName}`, "success");
-          this.closest(".team-member-card").remove();
-        }
-      }
+function initializeModals() {
+  const modals = document.querySelectorAll(".modal");
+  const closeButtons = document.querySelectorAll(".close");
+
+  closeButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      const modal = this.closest(".modal");
+      modal.style.display = "none";
     });
   });
 
-  // Quick action buttons
-  const quickActionButtons = document.querySelectorAll(".quick-action-btn");
-  quickActionButtons.forEach((btn) => {
-    btn.addEventListener("click", function (e) {
-      const targetSection = this.getAttribute("href");
-      if (targetSection.startsWith("#")) {
-        e.preventDefault();
-        scrollToSection(targetSection);
+  // Close modal when clicking outside
+  window.addEventListener("click", function (event) {
+    modals.forEach((modal) => {
+      if (event.target === modal) {
+        modal.style.display = "none";
       }
     });
   });
 }
-
-function scrollToSection(sectionId) {
-  const section = document.querySelector(sectionId);
-  if (section) {
-    section.scrollIntoView({ behavior: "smooth" });
-  }
-}
-
-function showNotification(message, type = "info") {
-  // Create notification element
-  const notification = document.createElement("div");
-  notification.className = `notification notification-${type}`;
-  notification.innerHTML = `
-        <div class="notification-content">
-            <i class="fas fa-${getNotificationIcon(type)}"></i>
-            <span>${message}</span>
-        </div>
-        <button class="notification-close">&times;</button>
-    `;
-
-  // Add styles
-  notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--${
-          type === "error" ? "error" : type === "success" ? "success" : "info"
-        });
-        color: var(--text-light);
-        padding: 1rem 1.5rem;
-        border-radius: var(--radius-md);
-        box-shadow: var(--shadow-lg);
-        z-index: 10000;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        max-width: 400px;
-        animation: slideInRight 0.3s ease-out;
-    `;
-
-  // Add close button functionality
-  const closeBtn = notification.querySelector(".notification-close");
-  closeBtn.addEventListener("click", () => {
-    notification.remove();
-  });
-
-  // Add to page
-  document.body.appendChild(notification);
-
-  // Auto remove after 5 seconds
-  setTimeout(() => {
-    if (notification.parentNode) {
-      notification.remove();
-    }
-  }, 5000);
-}
-
-function getNotificationIcon(type) {
-  switch (type) {
-    case "success":
-      return "check-circle";
-    case "error":
-      return "exclamation-circle";
-    case "warning":
-      return "exclamation-triangle";
-    default:
-      return "info-circle";
-  }
-}
-
-// Add CSS animations
-const style = document.createElement("style");
-style.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    .notification-close {
-        background: none;
-        border: none;
-        color: inherit;
-        font-size: 1.25rem;
-        cursor: pointer;
-        padding: 0;
-        margin-left: auto;
-    }
-    
-    .notification-close:hover {
-        opacity: 0.8;
-    }
-`;
-document.head.appendChild(style);
 
 function initializeMobileMenu() {
   const mobileToggle = document.querySelector(".dashboard-mobile-toggle");
   const sidebar = document.querySelector(".dashboard-sidebar");
   const overlay = document.querySelector(".dashboard-overlay");
 
-  console.log("Mobile menu elements found:", {
-    mobileToggle,
-    sidebar,
-    overlay,
-  });
-
   if (mobileToggle && sidebar && overlay) {
-    // Toggle sidebar when mobile toggle is clicked
     mobileToggle.addEventListener("click", function () {
-      console.log("Mobile toggle clicked");
       sidebar.classList.toggle("active");
       overlay.classList.toggle("active");
-      document.body.style.overflow = sidebar.classList.contains("active")
-        ? "hidden"
-        : "";
-      console.log("Sidebar active:", sidebar.classList.contains("active"));
     });
 
-    // Close sidebar when overlay is clicked
     overlay.addEventListener("click", function () {
-      console.log("Overlay clicked");
       sidebar.classList.remove("active");
       overlay.classList.remove("active");
-      document.body.style.overflow = "";
-    });
-
-    // Close sidebar when clicking on a nav link (mobile)
-    const navLinks = document.querySelectorAll(".dashboard-nav-link");
-    navLinks.forEach((link) => {
-      link.addEventListener("click", function () {
-        if (window.innerWidth <= 1024) {
-          sidebar.classList.remove("active");
-          overlay.classList.remove("active");
-          document.body.style.overflow = "";
-        }
-      });
-    });
-
-    // Close sidebar on window resize if screen becomes larger
-    window.addEventListener("resize", function () {
-      if (window.innerWidth > 1024) {
-        sidebar.classList.remove("active");
-        overlay.classList.remove("active");
-        document.body.style.overflow = "";
-      }
-    });
-
-    console.log("Mobile menu initialized successfully");
-  } else {
-    console.error("Mobile menu elements not found:", {
-      mobileToggle,
-      sidebar,
-      overlay,
     });
   }
 }
+
+// Initialize Quick Actions
+function initializeQuickActions() {
+  // Setup quick action buttons
+  const quickActionBtns = document.querySelectorAll(
+    ".quick-actions .dashboard-btn"
+  );
+
+  quickActionBtns.forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      const action = this.textContent.trim();
+      handleQuickAction(action);
+    });
+  });
+}
+
+function handleQuickAction(action) {
+  switch (action) {
+    case "Generate Report":
+      window.location.href = "ai-reports.html";
+      break;
+    case "New Appointment":
+      window.location.href = "appointments.html";
+      break;
+    case "Add Patient":
+      window.location.href = "patients.html";
+      break;
+    case "AI Assistant":
+      window.location.href = "ai-chat.html";
+      break;
+    default:
+      console.log("Quick action:", action);
+  }
+}
+
+// Initialize Recent Activities
+function initializeRecentActivities() {
+  const activitiesContainer = document.getElementById("recent-activities");
+  if (!activitiesContainer) return;
+
+  // Load activities from localStorage or use default
+  const activities = loadActivities();
+
+  // Display activities
+  displayActivities(activities);
+
+  // Update activities periodically
+  setInterval(() => {
+    updateActivities();
+  }, 30000); // Update every 30 seconds
+}
+
+function loadActivities() {
+  const savedActivities = localStorage.getItem("edoc_recent_activities");
+  if (savedActivities) {
+    return JSON.parse(savedActivities);
+  }
+
+  // Default activities
+  return [
+    {
+      type: "patient_checkin",
+      text: "Patient Sarah Johnson checked in",
+      time: "2 minutes ago",
+      icon: "fa-user-check",
+      priority: "high",
+    },
+    {
+      type: "ai_report",
+      text: "AI Report generated for Case #1234",
+      time: "15 minutes ago",
+      icon: "fa-file-medical",
+      priority: "medium",
+    },
+    {
+      type: "appointment",
+      text: "Appointment scheduled for tomorrow",
+      time: "1 hour ago",
+      icon: "fa-calendar-check",
+      priority: "medium",
+    },
+    {
+      type: "patient_update",
+      text: "Patient records updated for Michael Brown",
+      time: "2 hours ago",
+      icon: "fa-user-edit",
+      priority: "low",
+    },
+    {
+      type: "ai_model",
+      text: "Diagnostic AI model updated to v2.1.3",
+      time: "3 hours ago",
+      icon: "fa-brain",
+      priority: "low",
+    },
+  ];
+}
+
+function displayActivities(activities) {
+  const container = document.getElementById("recent-activities");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  activities.forEach((activity) => {
+    const activityDiv = document.createElement("div");
+    activityDiv.className = `activity-item ${activity.priority}`;
+    activityDiv.innerHTML = `
+            <div class="activity-icon">
+                <i class="fas ${activity.icon}"></i>
+            </div>
+            <div class="activity-content">
+                <div class="activity-text">${activity.text}</div>
+                <div class="activity-time">${activity.time}</div>
+            </div>
+        `;
+
+    // Add click handler for interactive activities
+    if (activity.type === "ai_report") {
+      activityDiv.style.cursor = "pointer";
+      activityDiv.addEventListener("click", () => {
+        window.location.href = "ai-reports.html";
+      });
+    } else if (activity.type === "appointment") {
+      activityDiv.style.cursor = "pointer";
+      activityDiv.addEventListener("click", () => {
+        window.location.href = "appointments.html";
+      });
+    } else if (activity.type === "patient_checkin") {
+      activityDiv.style.cursor = "pointer";
+      activityDiv.addEventListener("click", () => {
+        window.location.href = "patients.html";
+      });
+    }
+
+    container.appendChild(activityDiv);
+  });
+}
+
+function updateActivities() {
+  const activities = loadActivities();
+
+  // Add new random activity occasionally
+  if (Math.random() > 0.7) {
+    const newActivity = generateRandomActivity();
+    activities.unshift(newActivity);
+
+    // Keep only last 10 activities
+    if (activities.length > 10) {
+      activities.pop();
+    }
+
+    // Save to localStorage
+    localStorage.setItem("edoc_recent_activities", JSON.stringify(activities));
+
+    // Update display
+    displayActivities(activities);
+  }
+}
+
+function generateRandomActivity() {
+  const activityTypes = [
+    {
+      type: "ai_chat",
+      text: "AI Chat session completed",
+      icon: "fa-comments",
+      priority: "medium",
+    },
+    {
+      type: "patient_consultation",
+      text: "Consultation completed for new patient",
+      icon: "fa-stethoscope",
+      priority: "high",
+    },
+    {
+      type: "report_review",
+      text: "Medical report reviewed and approved",
+      icon: "fa-check-circle",
+      priority: "medium",
+    },
+    {
+      type: "team_meeting",
+      text: "Team meeting scheduled for tomorrow",
+      icon: "fa-users",
+      priority: "low",
+    },
+  ];
+
+  const randomType =
+    activityTypes[Math.floor(Math.random() * activityTypes.length)];
+  const timeOptions = [
+    "5 minutes ago",
+    "10 minutes ago",
+    "20 minutes ago",
+    "30 minutes ago",
+  ];
+  const randomTime =
+    timeOptions[Math.floor(Math.random() * timeOptions.length)];
+
+  return {
+    ...randomType,
+    time: randomTime,
+  };
+}
+
+// Initialize Appointments Preview
+function initializeAppointmentsPreview() {
+  const appointmentsContainer = document.getElementById("appointments-preview");
+  if (!appointmentsContainer) return;
+
+  // Load appointments
+  const appointments = loadAppointments();
+
+  // Display appointments
+  displayAppointmentsPreview(appointments);
+}
+
+function loadAppointments() {
+  const savedAppointments = localStorage.getItem("edoc_appointments");
+  if (savedAppointments) {
+    return JSON.parse(savedAppointments);
+  }
+
+  // Default appointments
+  return [
+    {
+      id: "APT001",
+      patientName: "Sarah Johnson",
+      type: "General Checkup",
+      date: "Today",
+      time: "2:00 PM",
+      status: "confirmed",
+    },
+    {
+      id: "APT002",
+      patientName: "Michael Brown",
+      type: "Follow-up",
+      date: "Tomorrow",
+      time: "10:00 AM",
+      status: "confirmed",
+    },
+    {
+      id: "APT003",
+      patientName: "Emily Davis",
+      type: "Consultation",
+      date: "Tomorrow",
+      time: "3:30 PM",
+      status: "pending",
+    },
+  ];
+}
+
+function displayAppointmentsPreview(appointments) {
+  const container = document.getElementById("appointments-preview");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  appointments.slice(0, 3).forEach((appointment) => {
+    const appointmentDiv = document.createElement("div");
+    appointmentDiv.className = `appointment-preview-item ${appointment.status}`;
+    appointmentDiv.innerHTML = `
+            <div class="appointment-info">
+                <h4>${appointment.patientName} - ${appointment.type}</h4>
+                <p><i class="fas fa-clock"></i> ${appointment.date}, ${appointment.time}</p>
+                <p><i class="fas fa-user"></i> Patient ID: ${appointment.id}</p>
+            </div>
+            <div class="appointment-status">
+                <span class="status-badge ${appointment.status}">${appointment.status}</span>
+            </div>
+        `;
+
+    // Add click handler
+    appointmentDiv.style.cursor = "pointer";
+    appointmentDiv.addEventListener("click", () => {
+      window.location.href = "appointments.html";
+    });
+
+    container.appendChild(appointmentDiv);
+  });
+}
+
+// Initialize Stats
+function initializeStats() {
+  // Update stats periodically
+  setInterval(() => {
+    updateStats();
+  }, 60000); // Update every minute
+}
+
+function updateStats() {
+  // Simulate real-time stat updates
+  const statNumbers = document.querySelectorAll(".stat-number");
+
+  statNumbers.forEach((stat) => {
+    const currentValue = parseInt(stat.textContent);
+    const variation = Math.floor(Math.random() * 3) - 1; // ±1
+    const newValue = Math.max(0, currentValue + variation);
+
+    // Animate the change
+    animateNumberChange(stat, currentValue, newValue);
+  });
+}
+
+function animateNumberChange(element, from, to) {
+  const duration = 1000;
+  const start = performance.now();
+
+  function update(currentTime) {
+    const elapsed = currentTime - start;
+    const progress = Math.min(elapsed / duration, 1);
+
+    const current = Math.floor(from + (to - from) * progress);
+    element.textContent = current;
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
+// Utility Functions
+function showNotification(message, type = "info") {
+  // Create notification element
+  const notification = document.createElement("div");
+  notification.className = `notification notification-${type}`;
+  notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas fa-${
+              type === "success"
+                ? "check-circle"
+                : type === "error"
+                ? "exclamation-circle"
+                : "info-circle"
+            }"></i>
+            <span>${message}</span>
+        </div>
+        <button class="notification-close">&times;</button>
+    `;
+
+  // Add to page
+  document.body.appendChild(notification);
+
+  // Show notification
+  setTimeout(() => notification.classList.add("show"), 100);
+
+  // Auto-hide after 5 seconds
+  setTimeout(() => {
+    notification.classList.remove("show");
+    setTimeout(() => notification.remove(), 300);
+  }, 5000);
+
+  // Close button functionality
+  const closeBtn = notification.querySelector(".notification-close");
+  closeBtn.addEventListener("click", () => {
+    notification.classList.remove("show");
+    setTimeout(() => notification.remove(), 300);
+  });
+}
+
+// Export functions for global access
+window.generateReport = function () {
+  window.location.href = "ai-reports.html";
+};
+
+window.newAppointment = function () {
+  window.location.href = "appointments.html";
+};
+
+window.addPatient = function () {
+  window.location.href = "patients.html";
+};
+
+window.openAIChat = function () {
+  window.location.href = "ai-chat.html";
+};

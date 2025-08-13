@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team - E-Doc</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar">
+            <div class="dashboard-sidebar-header">
+                <a href="index.html" class="dashboard-logo">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>E-Doc</span>
+                </a>
+            </div>
+            
+            <nav class="dashboard-nav-menu">
+                <div class="dashboard-nav-section">
+                    <div class="dashboard-nav-section-title">Main</div>
+                    <div class="dashboard-nav-item">
+                        <a href="dashboard-new.html" class="dashboard-nav-link">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="ai-models.html" class="dashboard-nav-link">
+                            <i class="fas fa-brain"></i>
+                            <span>AI Models</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="ai-reports.html" class="dashboard-nav-link">
+                            <i class="fas fa-file-medical"></i>
+                            <span>AI Reports</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="ai-chat.html" class="dashboard-nav-link">
+                            <i class="fas fa-comments"></i>
+                            <span>AI Chat</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="dashboard-nav-section">
+                    <div class="dashboard-nav-section-title">Management</div>
+                    <div class="dashboard-nav-item">
+                        <a href="appointments.html" class="dashboard-nav-link">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Appointments</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="patients.html" class="dashboard-nav-link">
+                            <i class="fas fa-users"></i>
+                            <span>Patients</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="analytics.html" class="dashboard-nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics</span>
+                        </a>
+                    </div>
+                    <div class="dashboard-nav-item">
+                        <a href="team.html" class="dashboard-nav-link active">
+                            <i class="fas fa-user-md"></i>
+                            <span>Team</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="dashboard-main">
+            <!-- Dashboard Header -->
+            <header class="dashboard-header">
+                <div class="dashboard-header-left">
+                    <button class="dashboard-mobile-toggle dashboard-hidden-mobile">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="dashboard-breadcrumb">
+                        <i class="fas fa-user-md"></i>
+                        <span>Team Management</span>
+                    </div>
+                </div>
+                
+                <div class="dashboard-header-right">
+                    <div class="team-controls">
+                        <button class="dashboard-btn dashboard-btn-primary" onclick="showNewMemberModal()">
+                            <i class="fas fa-plus"></i>
+                            Add Team Member
+                        </button>
+                        <button class="dashboard-btn dashboard-btn-outline" onclick="teamSettings()">
+                            <i class="fas fa-cog"></i>
+                            Team Settings
+                        </button>
+                    </div>
+                    
+                    <div class="dashboard-user-menu">
+                        <button class="dashboard-user-btn">
+                            <div class="dashboard-user-avatar">JD</div>
+                            <span>Dr. John Doe</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dashboard-user-dropdown">
+                            <a href="#profile"><i class="fas fa-user"></i> Profile</a>
+                            <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
+                            <a href="#help"><i class="fas fa-question-circle"></i> Help</a>
+                            <a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Team Content -->
+            <div class="dashboard-content">
+                <section class="dashboard-section">
+                    <div class="dashboard-section-header">
+                        <h2 class="dashboard-section-title">Medical Team Management</h2>
+                        <p class="dashboard-section-subtitle">Manage your medical team and collaboration tools</p>
+                    </div>
+                    
+                    <div class="dashboard-section-content">
+                        <!-- Team Statistics -->
+                        <div class="dashboard-stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="total-members">8</div>
+                                    <div class="stat-label">Team Members</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-stethoscope"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="doctors">5</div>
+                                    <div class="stat-label">Doctors</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-user-nurse"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="nurses">2</div>
+                                    <div class="stat-label">Nurses</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <div class="stat-number" id="support-staff">1</div>
+                                    <div class="stat-label">Support Staff</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Team Members -->
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-header">
+                                <h3 class="dashboard-card-title">Team Members</h3>
+                                <div class="dashboard-card-icon">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                            </div>
+                            <div class="team-grid" id="team-grid">
+                                <!-- Team members will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Collaboration Tools -->
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-header">
+                                <h3 class="dashboard-card-title">Collaboration Tools</h3>
+                                <div class="dashboard-card-icon">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                            </div>
+                            <div class="collaboration-tools">
+                                <div class="tools-grid">
+                                    <div class="tool-item" onclick="openTeamChat()">
+                                        <div class="tool-icon">
+                                            <i class="fas fa-comments"></i>
+                                        </div>
+                                        <div class="tool-content">
+                                            <h4>Team Chat</h4>
+                                            <p>Real-time communication and collaboration</p>
+                                            <div class="tool-status online">Online</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tool-item" onclick="openSharedCalendar()">
+                                        <div class="tool-icon">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <div class="tool-content">
+                                            <h4>Shared Calendar</h4>
+                                            <p>Coordinate schedules and meetings</p>
+                                            <div class="tool-status online">Online</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tool-item" onclick="openDocumentSharing()">
+                                        <div class="tool-icon">
+                                            <i class="fas fa-file-alt"></i>
+                                        </div>
+                                        <div class="tool-content">
+                                            <h4>Document Sharing</h4>
+                                            <p>Share and collaborate on medical documents</p>
+                                            <div class="tool-status online">Online</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tool-item" onclick="openTaskManagement()">
+                                        <div class="tool-icon">
+                                            <i class="fas fa-tasks"></i>
+                                        </div>
+                                        <div class="tool-content">
+                                            <h4>Task Management</h4>
+                                            <p>Track and manage team tasks</p>
+                                            <div class="tool-status online">Online</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Team Performance -->
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-header">
+                                <h3 class="dashboard-card-title">Team Performance</h3>
+                                <div class="dashboard-card-icon">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                            </div>
+                            <div class="performance-metrics">
+                                <div class="dashboard-grid">
+                                    <div class="performance-item">
+                                        <h4>Appointment Completion Rate</h4>
+                                        <div class="performance-bar">
+                                            <div class="performance-fill" style="width: 94%"></div>
+                                        </div>
+                                        <span class="performance-value">94%</span>
+                                    </div>
+                                    
+                                    <div class="performance-item">
+                                        <h4>Patient Satisfaction</h4>
+                                        <div class="performance-bar">
+                                            <div class="performance-fill" style="width: 91%"></div>
+                                        </div>
+                                        <span class="performance-value">91%</span>
+                                    </div>
+                                    
+                                    <div class="performance-item">
+                                        <h4>Response Time</h4>
+                                        <div class="performance-bar">
+                                            <div class="performance-fill" style="width: 87%"></div>
+                                        </div>
+                                        <span class="performance-value">87%</span>
+                                    </div>
+                                    
+                                    <div class="performance-item">
+                                        <h4>Team Collaboration</h4>
+                                        <div class="performance-bar">
+                                            <div class="performance-fill" style="width: 89%"></div>
+                                        </div>
+                                        <span class="performance-value">89%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- New Team Member Modal -->
+    <div id="new-member-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Team Member</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form class="member-form dashboard-form" id="member-form">
+                    <div class="dashboard-form-row">
+                        <div class="dashboard-form-group">
+                            <label class="dashboard-form-label">First Name *</label>
+                            <input type="text" name="firstName" class="dashboard-form-input" required>
+                        </div>
+                        <div class="dashboard-form-group">
+                            <label class="dashboard-form-label">Last Name *</label>
+                            <input type="text" name="lastName" class="dashboard-form-input" required>
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-form-row">
+                        <div class="dashboard-form-group">
+                            <label class="dashboard-form-label">Role *</label>
+                            <select name="role" class="dashboard-form-select" required>
+                                <option value="">Select role</option>
+                                <option value="doctor">Doctor</option>
+                                <option value="nurse">Nurse</option>
+                                <option value="specialist">Specialist</option>
+                                <option value="resident">Resident</option>
+                                <option value="support">Support Staff</option>
+                            </select>
+                        </div>
+                        <div class="dashboard-form-group">
+                            <label class="dashboard-form-label">Specialization</label>
+                            <input type="text" name="specialization" class="dashboard-form-input" placeholder="e.g., Cardiology, Pediatrics">
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-form-row">
+                        <div class="dashboard-form-group">
+                            <label class="dashboard-form-label">Email *</label>
+                            <input type="email" name="email" class="dashboard-form-input" required>
+                        </div>
+                        <div class="dashboard-form-group">
+                            <label class="dashboard-form-label">Phone</label>
+                            <input type="tel" name="phone" class="dashboard-form-input" placeholder="Optional">
+                        </div>
+                    </div>
+                    
+                    <div class="dashboard-form-group">
+                        <label class="dashboard-form-label">Department</label>
+                        <select name="department" class="dashboard-form-select">
+                            <option value="">Select department</option>
+                            <option value="general">General Medicine</option>
+                            <option value="cardiology">Cardiology</option>
+                            <option value="neurology">Neurology</option>
+                            <option value="oncology">Oncology</option>
+                            <option value="pediatrics">Pediatrics</option>
+                            <option value="radiology">Radiology</option>
+                            <option value="emergency">Emergency</option>
+                        </select>
+                    </div>
+                    
+                    <div class="dashboard-form-group">
+                        <label class="dashboard-form-label">Notes</label>
+                        <textarea name="notes" class="dashboard-form-textarea" placeholder="Additional information about the team member..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="dashboard-btn dashboard-btn-primary">
+                            <i class="fas fa-user-plus"></i>
+                            Add Team Member
+                        </button>
+                        <button type="button" class="dashboard-btn dashboard-btn-outline" onclick="closeModal('new-member-modal')">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Team Member Modal -->
+    <div id="edit-member-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Team Member</h3>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body" id="edit-member-body">
+                <!-- Edit form will be populated -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/team.js"></script>
+</body>
+</html>
