@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
     <div class="dashboard-container">
         <!-- Sidebar Navigation -->
@@ -17,7 +19,7 @@
                     <span>E-Doc</span>
                 </a>
             </div>
-            
+
             <nav class="dashboard-nav-menu">
                 <div class="dashboard-nav-section">
                     <div class="dashboard-nav-section-title">Main</div>
@@ -46,7 +48,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="dashboard-nav-section">
                     <div class="dashboard-nav-section-title">Management</div>
                     <div class="dashboard-nav-item">
@@ -82,7 +84,7 @@
             <!-- Dashboard Header -->
             <header class="dashboard-header">
                 <div class="dashboard-header-left">
-                    <button class="dashboard-mobile-toggle dashboard-hidden-mobile">
+                    <button class="dashboard-mobile-toggle">
                         <i class="fas fa-bars"></i>
                     </button>
                     <div class="dashboard-breadcrumb">
@@ -90,13 +92,13 @@
                         <span>Dashboard</span>
                     </div>
                 </div>
-                
+
                 <div class="dashboard-header-right">
                     <div class="dashboard-search">
                         <i class="fas fa-search"></i>
                         <input type="text" placeholder="Search...">
                     </div>
-                    
+
                     <div class="dashboard-user-menu">
                         <button class="dashboard-user-btn">
                             <div class="dashboard-user-avatar">JD</div>
@@ -119,7 +121,8 @@
                 <section id="dashboard-home" class="dashboard-section">
                     <div class="dashboard-section-header">
                         <h2 class="dashboard-section-title">E-Doc Dashboard Overview</h2>
-                        <p class="dashboard-section-subtitle">Welcome to your comprehensive medical management system</p>
+                        <p class="dashboard-section-subtitle">Welcome to your comprehensive medical management system
+                        </p>
                     </div>
                     <div class="dashboard-section-content">
                         <!-- Stats Grid -->
@@ -130,7 +133,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number" id="today-appointments">24</div>
-                                <div class="stat-label">Today's Appointments</div>
+                                    <div class="stat-label">Today's Appointments</div>
                                 </div>
                             </div>
                             <div class="stat-card">
@@ -139,7 +142,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number" id="total-patients">156</div>
-                                <div class="stat-label">Total Patients</div>
+                                    <div class="stat-label">Total Patients</div>
                                 </div>
                             </div>
                             <div class="stat-card">
@@ -148,7 +151,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number" id="team-members">8</div>
-                                <div class="stat-label">Team Members</div>
+                                    <div class="stat-label">Team Members</div>
                                 </div>
                             </div>
                             <div class="stat-card">
@@ -157,7 +160,7 @@
                                 </div>
                                 <div class="stat-content">
                                     <div class="stat-number" id="ai-reports">12</div>
-                                <div class="stat-label">AI Reports Generated</div>
+                                    <div class="stat-label">AI Reports Generated</div>
                                 </div>
                             </div>
                         </div>
@@ -238,8 +241,9 @@
             </div>
         </div>
     </div>
-
+    <div class="dashboard-overlay"></div>
     <script src="js/main.js"></script>
     <script src="js/dashboard.js"></script>
 </body>
+
 </html>

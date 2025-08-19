@@ -253,15 +253,31 @@ function initializeMobileMenu() {
   const sidebar = document.querySelector(".dashboard-sidebar");
   const overlay = document.querySelector(".dashboard-overlay");
 
-  if (mobileToggle && sidebar && overlay) {
+  // Only proceed if we're on a dashboard page
+  if (mobileToggle && sidebar) {
     mobileToggle.addEventListener("click", function () {
       sidebar.classList.toggle("active");
-      overlay.classList.toggle("active");
+      if (overlay) {
+        overlay.classList.toggle("active");
+      }
     });
 
-    overlay.addEventListener("click", function () {
-      sidebar.classList.remove("active");
-      overlay.classList.remove("active");
+    if (overlay) {
+      overlay.addEventListener("click", function () {
+        sidebar.classList.remove("active");
+        overlay.classList.remove("active");
+      });
+    }
+
+    document.addEventListener("click", function (e) {
+      if (window.innerWidth <= 1024) {
+        if (!sidebar.contains(e.target) && !mobileToggle.contains(e.target)) {
+          sidebar.classList.remove("active");
+          if (overlay) {
+            overlay.classList.remove("active");
+          }
+        }
+      }
     });
   }
 }
@@ -385,17 +401,14 @@ function displayActivities(activities) {
 
     // Add click handler for interactive activities
     if (activity.type === "ai_report") {
-      activityDiv.style.cursor = "pointer";
       activityDiv.addEventListener("click", () => {
         window.location.href = "ai-reports.html";
       });
     } else if (activity.type === "appointment") {
-      activityDiv.style.cursor = "pointer";
       activityDiv.addEventListener("click", () => {
         window.location.href = "appointments.html";
       });
     } else if (activity.type === "patient_checkin") {
-      activityDiv.style.cursor = "pointer";
       activityDiv.addEventListener("click", () => {
         window.location.href = "patients.html";
       });
@@ -539,7 +552,6 @@ function displayAppointmentsPreview(appointments) {
         `;
 
     // Add click handler
-    appointmentDiv.style.cursor = "pointer";
     appointmentDiv.addEventListener("click", () => {
       window.location.href = "appointments.html";
     });
