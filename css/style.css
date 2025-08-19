@@ -1681,7 +1681,78 @@ section.community .hero-buttons a:last-child {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
 }
+/* Progressive navigation compression for medium screens */
+@media (max-width: 1046px) {
+  .nav-links,
+  .nav-menu {
+    gap: 0.25rem; /* Minimal gap between nav items */
+  }
 
+  .nav-link {
+    padding: 0.5rem 0.625rem; /* Tighter padding */
+    font-size: 0.875rem; /* Smaller font */
+  }
+
+  .auth-links {
+    gap: 0.25rem; /* Minimal gap between auth buttons */
+  }
+
+  .btn {
+    padding: 0.5rem 0.875rem; /* Smaller buttons */
+    font-size: 0.8rem;
+  }
+}
+
+/* Switch to mobile menu for screens smaller than 944px */
+@media (max-width: 944px) {
+  .nav-links,
+  .nav-menu {
+    display: none;
+  }
+
+  .nav-links.active,
+  .nav-menu.active {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-primary);
+    flex-direction: column;
+    padding: 1rem 0;
+    box-shadow: var(--shadow-lg);
+    border-top: 1px solid var(--border-light);
+    z-index: 1000;
+  }
+
+  .nav-links .nav-link,
+  .nav-menu .nav-link,
+  .nav-links .auth-links a,
+  .nav-menu .auth-links a {
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border-light);
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .nav-links .auth-links,
+  .nav-menu .auth-links {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .nav-links .auth-links a:last-child,
+  .nav-menu .auth-links a:last-child {
+    border-bottom: none;
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+  }
+}
 @media (max-width: 768px) {
   .nav-links,
   .nav-menu {
@@ -1736,6 +1807,10 @@ section.community .hero-buttons a:last-child {
   .hero-buttons {
     flex-direction: column;
     align-items: center;
+  }
+
+  .hero-buttons a {
+    width: 250px;
   }
 
   .form-row {
@@ -2170,6 +2245,13 @@ section.community .hero-buttons a:last-child {
 .quick-action-btn span {
   font-size: 0.875rem;
   font-weight: 500;
+}
+
+@media (max-width: 769px) {
+  .dashboard div.dashboard-cta .cta-buttons a[href="login.html"],
+  .dashboard div.dashboard-cta .cta-buttons a[href="signup.html"] {
+    width: 230px;
+  }
 }
 
 /* AI Models Section (Dashboard) */
@@ -3014,6 +3096,17 @@ section.community .hero-buttons a:last-child {
   }
 }
 
+.ai-models > div > div.text-center {
+  margin-top: 3rem;
+}
+
+@media (max-width: 425px) {
+  .ai-models > div > div.text-center,
+  .ai-models > div > div.text-center > a {
+    font-size: 0.9rem;
+  }
+}
+
 /* Home: Dashboard overview teaser with highlighted first two cards */
 @media (min-width: 1024px) {
   .dashboard-overview {
@@ -3029,6 +3122,16 @@ section.community .hero-buttons a:last-child {
   }
 }
 
+/* Home Footer */
+@media (max-width: 563.9px) {
+  .home-footer {
+    text-align: center;
+  }
+  .home-footer .footer-content .social-links {
+    justify-content: center;
+  }
+}
+
 /* Auth pages: emphasize info panel on the left and form on the right */
 @media (min-width: 1024px) {
   .auth-container {
@@ -3041,6 +3144,10 @@ section.community .hero-buttons a:last-child {
   .auth-card {
     padding: 3rem 3rem;
   }
+}
+
+.auth-page .footer-content .social-links {
+  justify-content: center;
 }
 
 /* Specific fix for 1024px breakpoint to ensure proper layout */
@@ -3228,7 +3335,7 @@ section.community .hero-buttons a:last-child {
 }
 
 /* Mobile Navigation */
-@media (max-width: 768px) {
+@media (max-width: 944px) {
   .mobile-menu-toggle {
     display: block;
   }
@@ -3321,6 +3428,7 @@ section.community .hero-buttons a:last-child {
 
 .btn-primary:hover {
   background: var(--primary-dark);
+  color: var(--white);
 }
 
 .btn-secondary {
@@ -3344,6 +3452,7 @@ section.community .hero-buttons a:last-child {
 .btn-outline:hover {
   background: var(--primary);
   color: var(--text-light);
+  border-color: transparent !important;
 }
 
 .btn-large {
